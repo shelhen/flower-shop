@@ -1,0 +1,275 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "108345312",
+      "name": "gift",
+      "font_class": "gift",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "108345313",
+      "name": "全部订单",
+      "font_class": "quanbudingdan",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "108345314",
+      "name": "订单管理",
+      "font_class": "dingdanguanli",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "108345315",
+      "name": "cart",
+      "font_class": "cart",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "108345316",
+      "name": "pay",
+      "font_class": "pay",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "108345318",
+      "name": "未评价",
+      "font_class": "weipingjia",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "108345319",
+      "name": "鲜花",
+      "font_class": "shouye",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "108345320",
+      "name": "客服",
+      "font_class": "kefu",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "108345321",
+      "name": "电话",
+      "font_class": "dianhua",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "108345322",
+      "name": "商品管理",
+      "font_class": "shangpinguanli",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "108345323",
+      "name": "用户管理",
+      "font_class": "yonghuguanli",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "108345325",
+      "name": "01运输中、物流",
+      "font_class": "yunshuzhongwuliu",
+      "unicode": "e883",
+      "unicode_decimal": 59523
+    },
+    {
+      "icon_id": "108345326",
+      "name": "47退款",
+      "font_class": "tuikuan",
+      "unicode": "e8b2",
+      "unicode_decimal": 59570
+    },
+    {
+      "icon_id": "108345327",
+      "name": "评价管理",
+      "font_class": "pingjiaguanli",
+      "unicode": "e6ed",
+      "unicode_decimal": 59117
+    },
+    {
+      "icon_id": "108345328",
+      "name": "团队_科室",
+      "font_class": "tuandui_keshi",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "108345330",
+      "name": "客服",
+      "font_class": "kefu1",
+      "unicode": "e873",
+      "unicode_decimal": 59507
+    },
+    {
+      "icon_id": "108345331",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e8ac",
+      "unicode_decimal": 59564
+    },
+    {
+      "icon_id": "108345333",
+      "name": "得分详情",
+      "font_class": "defenxiangqing",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "108345336",
+      "name": "商品管理",
+      "font_class": "shangpinguanli2",
+      "unicode": "e809",
+      "unicode_decimal": 59401
+    },
+    {
+      "icon_id": "108345337",
+      "name": "编辑",
+      "font_class": "bianji1",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "108345341",
+      "name": "会员",
+      "font_class": "huiyuan",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "108345342",
+      "name": "搜索2",
+      "font_class": "sousuo2",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "108345343",
+      "name": "支付 钱包 待支付",
+      "font_class": "a-zhifuqianbaodaizhifu",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "108345344",
+      "name": "信息 聊天 通知",
+      "font_class": "a-xinxiliaotiantongzhi",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "108345346",
+      "name": "底部",
+      "font_class": "dibu",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "108345347",
+      "name": "购物车",
+      "font_class": "gouwuche",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "108345349",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e95b",
+      "unicode_decimal": 59739
+    },
+    {
+      "icon_id": "108345350",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e95c",
+      "unicode_decimal": 59740
+    },
+    {
+      "icon_id": "108345352",
+      "name": "left",
+      "font_class": "left",
+      "unicode": "e968",
+      "unicode_decimal": 59752
+    },
+    {
+      "icon_id": "108345357",
+      "name": "right",
+      "font_class": "right",
+      "unicode": "e975",
+      "unicode_decimal": 59765
+    },
+    {
+      "icon_id": "108345359",
+      "name": "sketch",
+      "font_class": "sketch",
+      "unicode": "e979",
+      "unicode_decimal": 59769
+    },
+    {
+      "icon_id": "108345361",
+      "name": "thunderbolt",
+      "font_class": "thunderbolt",
+      "unicode": "e97d",
+      "unicode_decimal": 59773
+    },
+    {
+      "icon_id": "108345362",
+      "name": "trophy",
+      "font_class": "trophy",
+      "unicode": "e97e",
+      "unicode_decimal": 59774
+    },
+    {
+      "icon_id": "108345363",
+      "name": "up",
+      "font_class": "up",
+      "unicode": "e980",
+      "unicode_decimal": 59776
+    },
+    {
+      "icon_id": "108345365",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e982",
+      "unicode_decimal": 59778
+    },
+    {
+      "icon_id": "108345367",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "108345368",
+      "name": "删除 垃圾桶",
+      "font_class": "a-shanchulajitong",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "108345369",
+      "name": "位置",
+      "font_class": "W-26",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    }
+  ]
+}

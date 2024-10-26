@@ -1,0 +1,58 @@
+{% extends './common.html' %}
+{% block title %} 花里有话网-支付成功 {% endblock %}
+{% block css %}
+<style>
+    /*支付成功页面*/
+    .wwww{margin: 0 auto;width: 1200px}
+    .order_success{
+        position: relative;
+        margin: 30px 0;
+        padding: 30px;
+        font-size: 15px;
+        min-height: 250px;
+        background-color: #fff;border-radius: 8px;
+        box-shadow: 0 1px 5px 0 rgb(0 0 0 / 5%);
+    }
+    .order_success img{position: absolute;left: 540px;width: 120px;height: 120px;}
+    .order_success h3{margin: 135px 0 10px;font-size: 22px;font-weight: 700;text-align: center;}
+    .order_success p{text-align: center;margin: 5px 0;}
+    .order_success a{color: #F07C7C}
+    .order_success a:hover{text-decoration: underline}
+    .hsha{width: 600px;margin: 15px auto 0;}
+    .hsha p{text-align: left;margin-left: 210px;}
+    .hsha p span{margin-left: 6px;}
+    .su_bt{margin-left:150px;padding: 6px 30px;font-size: 17px;font-weight: 700;border: 2px solid #F07C7C;cursor: pointer}
+    .su_bt:hover{color: #fff;background-color:#F07C7C;text-decoration: none!important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wwww" id="app">
+    <div class="order_success">
+        <img src="{{static('imgs/sucess.png') }}">
+        <h3>订单支付成功!</h3>
+        <p>您的订单已成功支付，请在【用户中心】-><a href="/orders/1/1/">【我的订单】</a>中关注申购状态。</p>
+        <div class="hsha">
+            <p> 客 服  电 话： <span>400-820-9999</span></p>
+            <p> 服 务  时 间：<span>周一至周日 9:00-17:00</span></p>
+            <p style="margin-bottom: 30px">支付交易号：<span>{{ trade_id }}</span></p>
+            <a class="su_bt" href="/orders/0/1/" style="color: #fff;background-color: #F07C7C">查看订单</a>
+            <a style="margin-left: 30px" class="su_bt" href="{{ url('contents:index') }}">返回首页</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block ejs %}
+<script>
+    let vm = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            username: getCookie('username'),
+            host:host,
+        },
+    })
+</script>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+{% extends './common.html' %}
+
+{% block title %} 花语详情-花里有话 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/flowery.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="w">
+    <div class="breadcrumb">
+        当前位置：
+        <a href="{{ url('contents:index') }}">首页</a><span> ></span>
+        <a href="/flowerylist/1/">浪漫花语</a><span> ></span>
+        <a href="javascript:;">花语详情</a>
+    </div>
+
+    <div class="flowery_con">
+        <div class="l_con">
+            <div class="article">
+                <h1>{{content.title}}</h1>
+                <div class="content_hd">
+                    <span>时间：{{content.time}}</span>
+                    <span>来源：花里有话鲜花网</span>
+                    <span>浏览量：{{content.count}}</span>
+                </div>
+                <div class="content_bd">
+                    <p>{{content.text}}</p>
+                    {% for img in imgs %}
+                        <a href="{{ url('goods:detail', args=(img.good_id,)) }}"><img src="{{img.image}}"></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="r_con">
+            <h3>热门阅读</h3>
+              <ul>
+                  <li v-for="item in this.news" class="clearfix">
+                     <img :src="item.image" class="img-box">
+                     <div class="text_con">
+                         <a :href="item.url" :title="item.title">[[ item.title ]]</a>
+                         <p>浏览量：[[ item.count ]]<span class="anthor">花话网</span></p>
+                     </div>
+                  </li>
+              </ul>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block ejs %}
+<script type="text/javascript" src="{{ static('js/flowery.js') }}"></script>
+{% endblock %}

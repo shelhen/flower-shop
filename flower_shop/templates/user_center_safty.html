@@ -1,0 +1,60 @@
+{% extends './user_center_info.html' %}
+
+{% block content %}
+    <div id="app" v-cloak>
+        <div class="main_con clearfix">
+            <div class="w">
+                {% block left_menu_con %}
+                    <div class="left_menu_con clearfix">
+                        <h3>会员中心</h3>
+                        <ul>
+                            <li><a href="/info/">个人信息</a></li>
+                            <li><a href="/addresses/">收货地址</a></li>
+                            <li><a href="/orders/0/1/">我的订单</a></li>
+                            <li><a href="/user/comment/1/">评价晒单</a></li>
+                            <li><a href="/password/" class="user_menu_active">修改密码</a></li>
+                        </ul>
+                    </div>
+                {% endblock %}
+                {% block right_content %}
+                    <div class="right_content clearfix">
+                        <div class="pass_change_con clearfix" v-cloak>
+                            <h3 class="common_title2 clearfix">密码修改</h3>
+                            {{ csrf_input }}
+                            <ul>
+                                <li>
+                                    <label>当前密码：</label>
+                                    <input type="password" v-model="old_pwd" @blur="check_opwd" name="old_pwd">
+                                    <span v-show="error_opwd" class="error_message">密码最少8位，最长20位</span>
+                                    {% if origin_password_errmsg %}
+                                    <span>{{ origin_password_errmsg }}</span>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <label>新密码：</label>
+                                    <input type="password" v-model="new_pwd" @blur="check_pwd" name="new_pwd">
+                                    <span v-show="error_pwd" class="error_message">[[ change_password_errmsg ]]</span>
+                                </li>
+                                <li>
+                                    <label>确认新密码：</label>
+                                    <input type="password" v-model="new_cpwd" @blur="check_cpwd" name="new_cpwd">
+                                    <span v-show="error_cpwd" class="error_message">两次输入的密码不一致</span>
+                                    {% if change_password_errmsg %}
+                                    <span>{{ change_password_errmsg }}</span>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <input type="submit" @click="save_pwd" name="" value="确 定" class="passchange_btn" style="margin-left: 70px!important;">
+                                    <input type="reset" @click="cancel_pwd" name="" value="重 置" class="passchange_btn">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block ejs %}
+<script type="text/javascript" src="{{ static('js/user_center_info.js') }}"></script>
+{% endblock %}

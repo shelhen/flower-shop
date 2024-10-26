@@ -1,0 +1,212 @@
+{% extends './common.html' %}
+{% block title %} 花里有话鲜花商城-送鲜花就到花里有话 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/index.css') }}">
+{% endblock %}
+
+{% block navitems %}
+    <a class="navi_active" href="{{ url('contents:index') }}">网站首页</a>
+    <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a href="/flowerylist/1/">浪漫花语</a>
+    <a href="{{ url('users:info') }}">会员中心</a>
+    <a href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+
+{% block content %}
+    <!--滑动轮播图-->
+    <div class="pos_center_con clearfix">
+        <ul class="slides">
+            {% for slide in slides %}
+            <li><a href="{{ slide.url }}"><img src="{{ slide.image.url }}" alt="幻灯片{{ slide.name }}"></a></li>
+            {% endfor %}
+        </ul>
+        <div class="prev"></div>
+        <div class="next"></div>
+        <ul class="points"></ul>
+    </div>
+    <div class="function clearfix">
+        <div class="pts clearfix">
+            <div class="pt fl">
+                <span class="pt_zheng fl"></span>
+                <i class="fl"><h4>原创花艺</h4><p>正品保障，提供发票</p></i>
+            </div>
+            <div class="pt fl">
+                <span class="pt_wu fl"></span>
+                <i class="fl"><h4>3小时配送</h4><p>协同物流，急速送达</p></i>
+            </div>
+            <div class="pt fl">
+                <span class="pt_hou fl"></span>
+                <i class="fl"><h4>销量领先</h4><p>7天无理由退换货</p></i>
+             </div>
+            <div class="pt fl">
+                <span class="pt_te fl"></span>
+                <i class="fl"><h4>百万客户信赖</h4><p>正规发票，多年信誉</p></i>
+            </div>
+            <div class="pt fl">
+                <span class="pt_help fl"></span>
+                <i class="fl"><h4>低价保障</h4><p>您的购物指南</p></i>
+            </div>
+        </div>
+        <div class="function_list">
+            <div class="function_item">
+                <a href="{{ url('goods:list', args=(1, 1)) }}?sort=default">
+                    <img src="{{static('imgs/functions/home_channel_lover.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="function_item">
+                <a href="{{ url('goods:list', args=(4, 1)) }}?sort=default" target="_blank" style="display: inline-block;">
+                    <img src="{{static('imgs/functions/home_channel_elder2.jpg') }}" alt="">
+                </a>
+                <a style="margin-top: 12px;" href="{{ url('goods:list', args=(3, 1)) }}?sort=default" target="_blank" style="display: inline-block;">
+                    <img src="{{static('imgs/functions/home_channel_friend.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="function_item">
+                <a href="{{ url('goods:list', args=(3, 1)) }}?sort=default">
+                    <img src="{{static('imgs/functions/home_channel_birthday.jpg') }}" alt="">
+                </a>
+            </div>
+            <div class="function_item">
+                <a style="margin-right: 12px;" href="{{ url('goods:list', args=(7, 1)) }}?sort=default" target="_blank">
+                    <img src="{{static('imgs/functions/home_channel_express.jpg') }}" alt="">
+                </a>
+                <a href="{{ url('goods:list', args=(2, 1)) }}?sort=default" target="_blank">
+                    <img src="{{static('imgs/functions/home_channel_business.png') }}" alt="">
+                </a>
+                <a style="margin-top: 12px;" href="{{ url('goods:list', args=(0, 1)) }}?sort=default" target="_blank" style="display: inline-block;">
+                    <img src="{{static('imgs/functions/home_channel_you_3.jpg') }}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="special_offers clearfix">
+            <div class="offers_hd">
+                <img src="{{ static('imgs/offers.png') }}">
+            </div>
+            <div class="countdown">
+                活动倒计时：
+                <span id="hour">[[hour]]</span>:
+                <span id="minute">[[minute]]</span>:
+                <span id="second">[[second]]</span>
+            </div>
+            <div class="offers_bd">
+                <div class="special_offers_bg"></div>
+                <div class="offers_l">
+                    <div class="mproduct_bg"></div>
+                    <div class="img_box">
+                        <a href="{{ url('goods:detail', args=(main_offer.id,)) }}"><img src="{{ main_offer.default_image.url }}"> </a>
+                    </div>
+                    <div class="good_info">
+                        <p style="padding-bottom: 20px;"><span class="index_title">{{ main_offer.name }}</span></p>
+                        <div class="good_info_l fl">
+                            <p>{{ main_offer.intro }}</p>
+                            <p>{{ main_offer.desc_detail }}</p>
+                        </div>
+                        <div class="good_info_r fl">
+                            <p>¥ {{main_offer.price}}<span class="oprice">¥ {{main_offer.market_price}}</span></p>
+                            <a class="index_btn" href="{{ url('goods:detail', args=(main_offer.id,)) }}">立即购买</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="offers_r">
+                    <ul>
+                        {% for offer in offers %}
+                        <li>
+                            <a class="eee" href="{{ url('goods:detail', args=(offer.id,)) }}"><img src="{{ offer.default_image.url }}"></a>
+                            <h4 class="index_title">{{offer.name}}</h4>
+                            <p>¥ {{offer.price}}<span class="oprice">¥ {{offer.market_price}}</span></p>
+                            <h6><a href="{{ url('goods:detail', args=(offer.id,)) }}" class="index_btn">立即购买</a></h6>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="hot_recomend clearfix">
+            <div class="offers_hd">
+                <img src="{{ static('imgs/recoment.png') }}">
+            </div>
+            <div class="recomend">
+                <div class="rec_bg"><img src="{{static('imgs/indexbg_rec.png')}}"></div>
+                <ul class="rec_con">
+                    <div class="rec_con_tp">
+                        {% for good in hot_goods %}
+                        <li>
+                            <a class="bbb" href="{{ url('goods:detail', args=(good.id,)) }}"><img src="{{ good.default_image.url }}"></a>
+                            <h4 class="index_title">{{good.name}}</h4><p>¥ {{good.price}}</p>
+                            <h6><a href="{{ url('goods:detail', args=(good.id,)) }}" class="index_btn">立即购买</a></h6>
+                        </li>
+                        {% endfor %}
+                    </div>
+                    <div class="rec_con_bt">
+                        {% for good in hot_goods2 %}
+                        <li>
+                            <a class="bbb" href="{{ url('goods:detail', args=(good.id,)) }}"><img src="{{ good.default_image.url }}"></a>
+                            <h4 class="index_title">{{good.name}}</h4><p>¥ {{good.price}}</p>
+                            <h6><a href="{{ url('goods:detail', args=(good.id,)) }}" class="index_btn">立即购买</a></h6>
+                        </li>
+                        {% endfor %}
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <a class="end_index" href="jascript:;"><img src="{{ static('imgs/index_end.jpg') }}"></a>
+    </div>
+{% endblock %}
+
+{% block foot %}
+    <div class="links">
+        <dl>
+            <dt>客户服务</dt>
+            <dd><a href="#">售后服务</a></dd>
+            <dd><a href="#">常见问题</a></dd>
+            <dd><a href="#">会员特权</a></dd>
+            <dd><a href="#">关于我们</a></dd>
+        </dl>
+        <dl>
+            <dt>配送方式</dt>
+            <dd><a href="#">配送说明</a></dd>
+            <dd><a href="#">配送范围</a></dd>
+            <dd><a href="#">物流查询</a></dd>
+            <dd><a href="#">配送费收取标准</a></dd>
+        </dl>
+        <dl>
+            <dt>支付方式</dt>
+            <dd><a href="#">货到付款</a></dd>
+            <dd><a href="#">在线支付</a></dd>
+            <dd><a href="#">分期付款</a></dd>
+            <dd><a href="#">公司转账</a></dd>
+        </dl>
+        <dl>
+            <dt>售后服务</dt>
+            <dd><a href="#">订单查询</a></dd>
+            <dd><a href="#">十大免费</a></dd>
+            <dd><a href="#">投诉反馈</a></dd>
+            <dd><a href="#">隐私政策</a></dd>
+        </dl>
+        <dl>
+            <dt>联系我们</dt>
+            <!--                cursor:pointer-->
+            <dd><p style="cursor:pointer">江浙沪订购热线 : 400-820-9999</p></dd>
+            <dd><p style="cursor:pointer">Email : huahua@163.com</p></dd>
+            <dd><p style="cursor:pointer">7 x 24 小时在线订购</p></dd>
+            <dd><p style="cursor:pointer">客服工作时间 : 8:30-21:30</p></dd>
+        </dl>
+        <dl>
+<!--            <img class="foot_help" src="../static/imgs/help_code.png" alt="微信公众号">-->
+<!--            <p style="margin-top:5px;font-size: 14px;">关注公众号有惊喜！</p>-->
+        </dl>
+    </div>
+{% endblock %}
+
+{% block ejs %}
+    <script type="text/javascript" src="{{ static('js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/slide.js') }}"></script>
+{% endblock %}

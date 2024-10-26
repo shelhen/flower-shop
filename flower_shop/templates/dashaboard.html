@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ static('css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ static('fonts/iconfont.css') }}">
+    <script type="text/javascript"  src="{{ static('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/axios-0.18.0.min.js') }}"></script>
+    <script type="text/javascript"  src="{{ static('js/echarts.min.js') }}"></script>
+</head>
+<body>
+   <div id="app">
+       <div class="w2">
+           <div class="dashboard_head">
+               <div class="db_item db1">
+                   <div class="card-icon"><i class="user"></i></div>
+                   <div class="text-center">
+                       <h2><span class="counter">{{dashboard.user[0]}}</span><span>个</span></h2>
+                       <h4>总用户量</h4>
+                       <h4><i class="word_increase">{{dashboard.user[1]}}</i>新增</h4>
+                   </div>
+               </div>
+               <div class="db_item db2">
+                   <div class="card-icon"><i class="good"></i></div>
+                   <div class="text-center">
+                       <h2><span class="counter">{{dashboard.goods[0]}}</span><span>种</span></h2>
+                       <h4>总商品量</h4>
+                       <h4><i class="word_increase">{{dashboard.goods[1]}}</i>新增</h4>
+                   </div>
+               </div>
+               <div class="db_item db3">
+                   <div class="card-icon"><i class="order"></i></div>
+                   <div class="text-center">
+                       <h2><span class="counter">{{dashboard.order[0]}}</span><span>笔</span></h2>
+                       <h4>总订单量</h4>
+                       <h4><i class="word_increase">{{dashboard.order[1]}}</i>新增</h4>
+                   </div>
+               </div>
+               <div class="db_item db4">
+                   <div class="card-icon"><i class="count"></i></div>
+                   <div class="text-center">
+                       <h2><span class="counter">{{dashboard.total[0]}}</span><span>万元</span></h2>
+                       <h4>累计总收益</h4>
+                       <h4><i class="word_increase">{{dashboard.total[1]}}</i>新增</h4>
+                   </div>
+               </div>
+           </div>
+           <div class="dashboard_body clearfix">
+               <div class="bd_card_8 white_bg">
+                   <h3>近一周用户下单量</h3>
+                   <div id="mounth_increase"></div>
+               </div>
+               <div class="bd_card_4 white_bg">
+                   <h3>日增用户日活用户比</h3>
+                   <div id="den_pie1"></div>
+               </div>
+           </div>
+           <div class="dashboard_body clearfix">
+               <div class="bd_card_2">
+                   <div class="special_card1">
+                       <h4 style="margin-bottom: 5px">今日收益</h4>
+                       <h2><span class="counter">￥{{dashboard.total[1]}}</span><span>万元</span></h2>
+                       <h4>完成订单<i class="word_increase" style="margin: 5px 10px">{{dashboard.order[2]}}笔</i></h4>
+                       <div class="xhh"><i class="good2"></i></div>
+                   </div>
+                   <div class="special_card2">
+                       <ul>
+                           {% if finishs==[] %}
+                                <li><h5>今天暂无已完成订单！</h5></li>
+                           {% elif finishs!=[] %}
+                                {% for finish in finishs %}
+                                <li><h5>{{finish[0]}}<span>+{{finish[2]}}</span></h5><p>2023/3/25/18:36:00</p></li>
+                                {% endfor %}
+                           {% endif %}
+                       </ul>
+                   </div>
+               </div>
+               <div class="bd_card_9 white_bg">
+                   <h3>待处理订单</h3>
+                   <table class="order_manage">
+                       <tr>
+                           <th class="col01">订单号</th>
+                           <th class="col02">用户</th>
+                           <th class="col03">金额</th>
+                           <th class="col04">时间</th>
+                           <th class="col05">支付方式</th>
+                           <th class="col06">操作</th>
+                       </tr>
+                       {% for deal in page_deals %}
+                       <tr>
+                           <td class="col01">{{deal.order_id}}</td>
+                           <td class="col02">{{deal.username}}</td>
+                           <td class="col03">{{deal.total_amount}}</td>
+                           <td class="col04">{{deal.datetime}}</td>
+                           <td class="col05">{{deal.pay_method}}</td>
+                           <td class="col06">
+                                {% if deal.status==2 %}
+                                 <a @click="send('{{ deal.order_id }}', '{{ deal.status }}')" class="send" style="background-color: #4EC4FF">立即发货</a>
+                                {% elif deal.status==4 %}
+                                 <a @click="send('{{ deal.order_id }}', '{{ deal.status }}')" class="send">立即退款</a>
+                                {% endif %}
+                           </td>
+                       </tr>
+                       {% endfor %}
+                       <tr style="position: relative"><div id="pagination"></div></tr>
+                   </table>
+
+               </div>
+           </div>
+           <div class="dashboard_body clearfix">
+               <div class="bd_card_6 white_bg">
+                   <h3>数据数据数据1</h3>
+                   <div id="bar1"></div>
+               </div>
+               <div class="bd_card_6 white_bg">
+                   <h3>数据数据数据2</h3>
+                   <div id="bar2"></div>
+               </div>
+           </div>
+       </div>
+
+   </div>
+<script>
+    $(function () {
+        $('#pagination').pagination({
+            currentPage: {{ page_num }}, // 当期所在页码
+            totalPage: {{ total_page }},   // 总页数
+            callback:function(current) {
+                location.href = '/dashboard/' + current + '/';
+            }
+    })
+    });
+</script>
+<script type="text/javascript">
+    let c1 = "{{ dashboard.user[1] }}";
+    let c2 = "{{ dashboard.user[2] }}";
+    let c3 = "{{ dashboard.user[3] }}";
+    let counts = {{ counts | safe }};
+    let dates = {{ dates | safe }};
+</script>
+<script type="text/javascript" src="{{ static('js/common.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/dashboard.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# 指定进行检索用到的字段
+{{ object.name }}
+{{ object.caption }}
+{{ object.id }}

@@ -1,0 +1,88 @@
+{% extends './common.html' %}
+
+{% block title %} 鲜花分类列表-花里有话 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/list.css') }}">
+{% endblock %}
+
+{% block navitems %}
+    <a href="{{ url('contents:index') }}">网站首页</a>
+    <a class="navi_active" href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a href="/flowerylist/1/">浪漫花语</a>
+    <a href="{{ url('users:info') }}">会员中心</a>
+    <a href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+
+{% block content %}
+  <div id="app" v-cloak>
+      <div class="w">
+          <div class="l_wrap">
+              <div class="top_wrap clearfix">
+                  <ul>
+                      <li>类别:</li>
+                      <li><a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">全部</a></li>
+                      {% for category in categories %}
+                        <li><a href="{{ url('goods:list', args=(category.id, 1)) }}?sort={{sort}}">{{category.name}}</a></li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              <div class="foot_wrap clearfix">
+                  <div class="sort_bar clearfix">
+                  <a href="javascript:;" style="color: #666!important;font-weight: bold!important;">排序</a>
+                  <a href="{{ url('goods:list', args=(category_id, 1)) }}?sort=default" {% if sort=='default' %} class="listactive" {% endif %}>综合</a>
+                  <a href="{{ url('goods:list', args=(category_id, 1)) }}?sort=price" {% if sort=='price' %} class="listactive" {% endif %}>价格</a>
+                  <a href="{{ url('goods:list', args=(category_id, 1)) }}?sort=hot" {% if sort=='hot' %} class="listactive" {% endif %}>人气</a>
+              </div>
+                  <ul>
+                      {% for sku in page_skus %}
+                      <li>
+                          <a href="{{ url('goods:detail', args=(sku.id,)) }}" class="img-box"><img src="{{ sku.default_image.url }}"></a>
+                          <div class="product-content">
+                             <h4>{{ sku.name }}-{{sku.intro}}</h4>
+                             <p class="product-sub">{{sku.caption}}</p>
+                             <p><span class="price">¥ {{ sku.price }}</span></p>
+                             <p class="has_sell"><span>已售 {{sku.sales2}} 件</span></p>
+                         </div>
+                      </li>
+                      {% endfor %}
+                      <div class="pagenation"><div id="pagination" class="page"></div></div>
+                  </ul>
+              </div>
+          </div>
+          <div class="r_wrap">
+              <h3>热销排行</h3>
+              <ul>
+                  <li v-for="sku in hot_skus">
+                     <a :href="sku.url" class="img-box2"><img :src="sku.default_image_url"></a>
+                     <div class="product-content">
+                         <h4>[[ sku.name ]]</h4>
+                         <p><span class="price">¥ [[ sku.price ]]</span></p>
+                     </div>
+                  </li>
+              </ul>
+          </div>
+      </div>
+
+  </div>
+{% endblock %}
+
+{% block ejs %}
+<script type="text/javascript">
+    let category_id = "{{ category_id }}";
+    let sort = "{{ sort }}";
+</script>
+<script>
+     $(function () {
+        $('#pagination').pagination({
+            currentPage: {{ page_num }},
+            totalPage: {{ total_page }},
+            callback: function (current) {
+                location.href = '/list/{{ category_id }}/' + current + '/?sort={{ sort }}';
+            }
+        })
+    });
+</script>
+<script type="text/javascript" src="{{ static('js/list.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+{% endblock %}

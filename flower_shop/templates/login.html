@@ -1,0 +1,69 @@
+{% extends './common.html' %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/login.css') }}">
+{% endblock %}
+{% block title %} 花里有话-登录 {% endblock %}
+
+{% block content %}
+	<div class="login_form_bg" id="app">
+		<div class="login_form_wrap clearfix">
+			<div class="login_banner fl"></div>
+			<div class="login_form">
+				<div class="login_title clearfix">
+					<span v-on:click='change(index)' :class='currentIndex==index?"active":""' :key='item.id' v-for='(item,index) in list'>[[item.content]]</span>
+				</div>
+				<div class="hide" :class='currentIndex==0?"current":""'>
+					<div class="form_input">
+						<form method="post" @submit="on_submit1" v-cloak>
+							{{ csrf_input }}
+							<span class="name_input_icon"></span>
+							<input type="text" v-model="username" @blur="check_username" name="username" class="name_input" placeholder="请输入用户名或手机号">
+							<div v-show="error_username" class="error_username">请输入正确的用户名或手机号</div>
+							<span class="pass_input_icon"></span>
+							<input type="password" v-model="password" @blur="check_password" name="password" class="pass_input" placeholder="请输入密码">
+							<div v-show="error_password" class="error_password">密码最少8位，最长20位</div>
+                            {% if account_errmsg %}
+                                <div class="pwd_error">{{ account_errmsg }}</div>
+                            {% endif %}
+                            <div class="more_input clearfix">
+								<input type="checkbox" v-model="remembered" name="remembered">
+								<label>记住登录</label>
+							</div>
+							<p><input type="submit" value="登 录" class="input_submit"></p>
+						</form>
+					</div>
+				</div>
+				<div class="hide" :class='currentIndex==1?"current":""'>
+					<div class="form_input">
+						<form method="post" @submit="on_submit2" v-cloak>
+							{{ csrf_input }}
+							<span class="login_phone_icon"></span>
+							<input type="text" v-model="mobile" @blur="check_mobile" name="mobile" id="login_phone" placeholder="请输入手机号">
+							<span class="error_tip_m1" v-show="error_mobile">[[ error_mobile_message ]]</span>
+							<input type="text" v-model="image_code" @blur="check_image_code" name="image_code" class="msg_input" placeholder="图形验证码">
+							<img :src="image_code_url" @click="generate_image_code" alt="图形验证码" class="pic_code">
+							<span class="error_tip_m2" v-show="error_image_code">[[ error_image_code_message ]]</span>
+							<input type="text" v-model="sms_code" @blur="check_sms_code" name="sms_code" class="msg_input" placeholder="手机验证码">
+                            <a @click="send_sms_code" class="get_sms_code">[[ sms_code_tip ]]</a>
+                            <span class="error_tip_m3" v-show="error_sms_code">[[ error_sms_code_message ]]</span>
+                            {% if sms_code_errmsg %}
+                                <span class="error_tip_m4">{{ sms_code_errmsg }}</span>
+                            {% endif %}
+							<p><input type="submit" value="登 录" class="input_submit" style="margin-top: 5px"></p>
+						</form>
+					</div>
+				</div>
+				<a href="{{ url('users:register') }}" class="reg_btn">立即注册</a>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+
+{% block foot %}
+{% endblock %}
+
+{% block ejs %}
+    <script type="text/javascript" src="{{ static('js/login.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends './common.html' %}
+{% block title %} 会员中心-花里有话 {% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/user_center.css') }}">
+{% endblock %}
+{% block navitems %}
+    <a href="{{ url('contents:index') }}">网站首页</a>
+    <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a href="/flowerylist/1/">浪漫花语</a>
+    <a class="navi_active" href="{{ url('users:info') }}">会员中心</a>
+    <a href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+{% block content %}
+    <div id="app" v-cloak>
+        <div class="main_con clearfix">
+            <div class="w">
+                {% block left_menu_con %}
+                    <div class="left_menu_con clearfix">
+                        <h3>会员中心</h3>
+                        <ul>
+                            <li><a href="/info/" class="user_menu_active">个人信息</a></li>
+                            <li><a href="/addresses/">收货地址</a></li>
+                            <li><a href="/orders/0/1/">我的订单</a></li>
+                            <li><a href="/user/comment/1/">评价晒单</a></li>
+                            <li><a href="/password/">修改密码</a></li>
+                        </ul>
+                    </div>
+                {% endblock %}
+                {% block right_content %}
+                    <div class="right_content clearfix">
+                        <div class="info_con clearfix">
+                            <h3 class="common_title2">基本信息</h3>
+                            <ul class="user_info_list">
+                                <li><span>用户名：</span>{{ username }}</li>
+                                <li><span>绑定手机：</span>{{ mobile }}</li>
+                                <li><span>默认地址：</span>{{default_address}}</li>
+                            </ul>
+                        </div>
+                        <div class="has_view_list">
+                            <h3 class="common_title2">猜你喜欢</h3>
+                            <ul>
+                                <li v-for="sku in histories">
+                                   <a :href="sku.url" class="img-box"><img :src="sku.default_image_url"></a>
+                                   <div class="product-content">
+                                       <h4>[[ sku.name ]]</h4>
+                                       <p><span class="price">¥ [[ sku.price ]]</span></p>
+                                   </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block ejs %}
+<script type="text/javascript" src="{{ static('js/user_center_info.js') }}"></script>
+{% endblock %}

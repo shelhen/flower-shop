@@ -1,0 +1,78 @@
+{% extends './common.html' %}
+{% block title %}  会员中心-我的评价 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/user_center.css') }}">
+{% endblock %}
+{% block navitems %}
+    <a href="{{ url('contents:index') }}">网站首页</a>
+    <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a href="/flowerylist/1/">浪漫花语</a>
+    <a class="navi_active" href="{{ url('users:info') }}">会员中心</a>
+    <a href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+
+
+{% block content %}
+<div id="app" v-cloak>
+    <div class="main_con clearfix">
+        <div class="w">
+            {% block left_menu_con %}
+            <div class="left_menu_con clearfix">
+                <h3>会员中心</h3>
+                <ul>
+                    <li><a href="/info/">个人信息</a></li>
+                    <li><a href="/addresses/">收货地址</a></li>
+                    <li><a href="/orders/0/1/">我的订单</a></li>
+                    <li><a href="/user/comment/1/" class="user_menu_active">评价晒单</a></li>
+                    <li><a href="/password/">修改密码</a></li>
+                </ul>
+            </div>
+            {% endblock %}
+            {% block right_content %}
+            <div class="right_content clearfix">
+                <div class="comments_list">
+                    <h3 class="common_title2 clearfix">晒单评价</h3>
+                    <ul class="commens_list_th">
+                        <li class="col01">商品图片</li>
+                        <li class="col02">商品名称</li>
+                        <li class="col03">商品价格</li>
+                        <li class="col04">我的评论</li>
+                        <li class="col05">评论时间</li>
+                        <li class="col06">我的评分</li>
+                    </ul>
+                    {% for comment in goods_comment_list %}
+                    <ul class="commens_list_td">
+                        <li class="col01"><img src="{{ comment.img.url }}"></li>
+                        <li class="col02">{{ comment.name }}</li>
+                        <li class="col03">￥{{ comment.price }}</li>
+                        <li class="col04">{{comment.comment}}</li>
+                        <li class="col05">{{comment.time}}</li>
+                        <li class="{{ comment.score }}"></li>
+                    </ul>
+                    {% endfor %}
+                    <div id="pagination"></div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block ejs %}
+  <script type="text/javascript" src="{{ static('js/user_center_info.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#pagination').pagination({
+            currentPage: {{ page_num }}, // 当期所在页码
+        totalPage: {{ total_page }},   // 总页数
+        callback:function (current) {
+            location.href = '/user/comment/' + current + '/';
+        }
+    })
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,8 @@
+django
+Jinja2
+requests
+parsel
+django-redis
+Pillow
+PyMySQL
+python-alipay-sdk

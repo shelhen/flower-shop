@@ -1,0 +1,68 @@
+{% extends './common.html' %}
+
+{% block title %} 花语列表-花里有话 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/flowery.css') }}">
+{% endblock %}
+
+{% block navitems %}
+    <a href="{{ url('contents:index') }}">网站首页</a>
+    <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a class="navi_active"  href="/flowerylist/1/">浪漫花语</a>
+    <a href="{{ url('users:info') }}">会员中心</a>
+    <a href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+
+{% block content %}
+<div class="w">
+    <div class="breadcrumb">
+        当前位置：
+        <a href="{{ url('contents:index') }}">首页</a><span> ></span>
+        <a href="/flowerylist/1/">浪漫花语</a>
+    </div>
+    <div class="flowery_con">
+        <div class="l_con">
+            <ul>
+                {% for content in page_contents %}
+                <li class="clearfix">
+                    <img src="{{content.image}}" alt="{{content.title}}">
+                    <a href="{{ url('contents:flowery', args=(content.id,)) }}">{{content.title}}</a>
+                    <p>{{content.text}}</p>
+                    <em>{{content.time}}</em><span>浏览量：{{content.count}}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div id="pagination"></div>
+        </div>
+        <div class="r_con">
+            <h3>热门阅读</h3>
+              <ul>
+                  <li v-for="item in this.news" class="clearfix">
+                     <img :src="item.image" class="img-box">
+                     <div class="text_con">
+                         <a :href="item.url" :title="item.title">[[ item.title ]]</a>
+                         <p>浏览量：[[ item.count ]]<span class="anthor">花话网</span></p>
+                     </div>
+                  </li>
+              </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block ejs %}
+<script>
+    $(function () {
+        $('#pagination').pagination({
+            currentPage: {{ page_num }}, // 当期所在页码
+            totalPage: {{ total_page }},   // 总页数
+            callback:function(current) {
+                location.href = '/flowerylist/' + current + '/';
+            }
+    })
+    });
+</script>
+<script type="text/javascript" src="{{ static('js/flowery.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+{% endblock %}

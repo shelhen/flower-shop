@@ -1,0 +1,110 @@
+{% extends './common.html' %}
+{% block title %} 花里有话网-申请退款 {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ static('css/list.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="order_submit_con">
+    <div class="common_list_con">
+        <div class="goods_list">
+            <h3>退货退款申请</h3>
+            <ul class="goods_list_th">
+                <li class="col01">商品名称</li>
+                <li class="col02">商品单位</li>
+                <li class="col03">商品价格</li>
+                <li class="col04">数量</li>
+                <li class="col05">小计</li>
+            </ul>
+            {% for sku in skus %}
+            <ul class="goods_list_td">
+                <li class="col01">{{loop.index}}</li>
+                <li class="col02"><img src="{{ sku.default_image_url }}"></li>
+                <li class="col03">{{ sku.name }}</li>
+                <li class="col04">份</li>
+                <li class="col05">￥{{ sku.price }}</li>
+                <li class="col06">{{ sku.count }}</li>
+                <li class="col07">￥{{ sku.amount }}</li>
+            </ul>
+            {% endfor %}
+            <ul class="drawback">
+                <li class="drawback_item">
+                    <label>退款原因</label>
+                    <select class="withdraw_opt">
+                        <option v-for="reason in reasons" :value="reason.id">[[reason.name]]</option>
+                    </select>
+                </li>
+                <li class="drawback_item">
+                    <label>退款总金额</label> <span v-model="total_amounte">¥[[total_amount]]</span>
+                </li>
+                <li class="drawback_item">
+                    <label style="margin-top: 15px">说明</label>
+                    <textarea class="drawback_area" v-model="describe"></textarea>
+                </li>
+                <li class="drawback_item">
+                    <input type="checkbox" v-model="is_anonymous" class="no_name">
+                    <label>同意”花里有话商城用户退款协议“</label>
+                </li>
+                <li class="drawback_item">
+                    <input type="submit" value="提交申请" class="drawback_btn" @click="withdraw_btn()">
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block ejs %}
+<script type="text/javascript">
+    let total_amount = "{{ total_amount }}";
+    let order_id = "{{ order_id }}";
+    var vm = new Vue({
+    el: '#app',
+    delimiters: ['[[', ']]'],
+    data: {
+        host:host,
+        username: getCookie('username'),
+        order_id: order_id,
+        reasons:[
+            {'id':0,'name':'商品错发、漏发 '},
+            {'id':1,'name':'商品破损'},
+            {'id':2,'name':'收到商品与描述不符'},
+            {'id':3,'name':'未按约定时间发货'},
+            {'id':4,'name':'其他'},
+        ],
+        is_anonymous:false,
+        describe:'',
+        total_amount:total_amount
+    },
+    methods: {
+        withdraw_btn(){
+            var url = '/orders/drawback/';
+            if(this.is_anonymous){
+                axios.post(url,{
+                            order_id: this.order_id,
+                            total_amount: this.total_amount,
+                            describe: this.describe,
+                            is_anonymous: this.is_anonymous,
+                        }, {
+                            headers: {
+                                'X-CSRFToken':getCookie('csrftoken')
+                            },
+                            responseType: 'json'
+                        }).then(response => {
+                        if (response.data.code == '0') {
+                            // 删除评价后的商品
+                            alert(response.data.errmsg)
+                            location.href = '/orders/4/1/';
+                        } else {
+                            alert(response.data.errmsg);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+        }else{alert('请勾选"用户退款协议"')}}
+    }
+});
+</script>
+{% endblock %}

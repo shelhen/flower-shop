@@ -1,0 +1,227 @@
+{% extends './common.html' %}
+{% block title %} 鲜花详情页-花里有话 {% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/detail.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="w">
+    <div class="breadcrumb">
+        <a href="{{ url('contents:index') }}">首页</a><span> ></span>
+        <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a><span> ></span>
+        <a href="{{ url('goods:list', args=(good.category_id, 1)) }}?sort=default">{{good.category}}</a>
+    </div>
+    <div class="goods_detail_con">
+        <div class="detail_pic">
+            <div class="preview_img">
+                <img :src="mainImgUrl">
+            </div>
+            <ul class="preview_list">
+                <li v-for="(item,index) in imgUrlList" :key="index" @click="changeImg(item, index)" :class="index === imgActiveIndex ? 'activeBorder' : ''">
+                    <img :src="item">
+                </li>
+            </ul>
+        </div>
+        <div class="detail_list">
+            <h3>{{ good.name}}</h3>
+            <h6><span>{{ good.caption}}</span>{{ good.intro}}</h6>
+            <div class="price_bar">
+                <div class="price_item">
+                    <span class="price_label">售价</span><em>¥[[amount_price]]</em>
+                    <span style="padding-left: 12px">市场价</span><span class="oprice">¥[[amount_mprice]]</span>
+                </div>
+                <div class="price_sales">
+                    <p>已售<span>{{ good.sales2}}</span>件</p>
+                    <p style="padding:8px 0;">已有<span>{{ good.comments}}</span>人评价</p>
+                </div>
+                <div style="padding-top: 14px;">
+                    <span class="price_label">配送时间</span>
+                    <span @click="change_delivery('comon')" :class="deliverys.comon? 'price_time_bt btactive':'price_time_bt'">正常配送</span>
+                    <span @click="change_delivery('special')" :class="deliverys.special? 'price_time_bt btactive':'price_time_bt'">加急配送 （需加{{freight}}元）</span>
+                </div>
+            </div>
+            <div class="details">
+                <div class="details-item"><span>花语</span><p>{{ good.desc_detail}}</p></div>
+                <div class="details-item"><span>材料</span><p>{{ good.material}}</p></div>
+                <div class="details-item"><span>包装</span><p>{{ good.desc_pack}}</p></div>
+                <div class="details-item"><span>附送赠品</span><p>下单填写留言，即免费赠送精美贺卡！</p></div>
+                <div class="details-item"><span>配送说明</span><p>一个订单中多份鲜花仅需在订单结算时选择支付一次额外加急配送运费！</p></div>
+            </div>
+            <div style="margin-top: 40px;padding-left: 20px;">
+                <a @click="add_cart" class="debtn">加入购物车</a>
+                <a @click="comment_order" class="debtn">立即购买</a>
+            </div>
+        </div>
+    </div>
+    <div class="goods_other_con">
+        <div class="aside">
+            <h3>浏览记录</h3>
+            <ul>
+                <li v-for="sku in histories">
+                    <a :href="sku.url" class="img-box"><img :src="sku.default_image_url"></a>
+                    <div class="product-content">
+                        <h4>[[ sku.name ]]</h4>
+                        <p><span class="price">¥ [[ sku.price ]]</span></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="others">
+            <ul class="detail_tab clearfix">
+                <li @click="on_tab_content('detail')" :class="tab_content.detail?'active':''">商品详情</li>
+                <li @click="on_tab_content('comment')" :class="tab_content.comment?'active':''">用户评价（<span>{{good.comments}}</span>）</li>
+                <li @click="on_tab_content('problem')" :class="tab_content.problem?'active':''">常见问题</li>
+                <li @click="on_tab_content('service')" :class="tab_content.service?'active':''">购物保障</li>
+            </ul>
+            <div @click="on_tab_content('detail')" class="tab_content" :class="tab_content.detail?'current':''">
+                <dl>
+                    <dd class="detail_hd">产品参数</dd>
+                    <dd class="detail_bd_special">
+                        {% for image in images %}
+                        <img src="{{image.image}}">
+                        {% endfor %}
+                        <img src="{{static('imgs/xianhua_cardstyle.png') }}">
+                        <section class="disseminate">
+                            <div class="point">
+                                <div class="point-title">龙头企业认证·卓越鲜花品牌</div>
+                                <div class="point-body">
+                                    <p>多次获中国电子商务协会“鲜花龙头企业”认证。</p>
+                                    <img alt="鲜花龙头企业" src="{{static('imgs/m_details_point_01.png') }}" style="">
+                                </div>
+                            </div>
+                            <div class="point">
+                                <div class="point-title">12道品控标准 + 送前实拍</div>
+                                <div class="point-body">
+                                    <p>行业内率先研发并实施12道严苛品控标准：从花材采购、制作、成品、配送、售后全程覆盖，将产品及服务标准化；每束花均实拍回传总部审核，符合品控标准方可送出。</p>
+                                    <img alt="送前实拍" src="{{static('imgs/m_details_point_02.png') }}">
+                                </div>
+                            </div>
+                            <div class="point">
+                                <div class="point-title">花艺设计团队</div>
+                                <div class="point-body">
+                                    <p>国内领先的原创花艺：中国花艺博览会赛事冠军花艺师打造团队，坚持原创设计，创作花款迄今已畅销千万束。</p>
+                                    <img alt="花艺设计团队" src="{{static('imgs/m_details_point_03.png') }}">
+                                </div>
+                            </div>
+                            <div class="point">
+                                <div class="point-title">当日新鲜花材制作，极速送达</div>
+                                <div class="point-body">
+                                    <p>门店覆江浙沪大中小城市，鲜花皆由当地门店花艺师在配送当日使用新鲜A级花材制作，确保鲜花娇艳欲滴！并由专人专车送货上门，最快3小时送达，快人一步！</p>
+                                    <img alt="新鲜花材" src="{{static('imgs/m_details_point_04.png') }}" style="">
+                                </div>
+                            </div>
+                            <div class="point">
+                                <div class="point-title">客服团队</div>
+                                <div class="point-body">
+                                    <p>建设一支较其他电商更大规模的客服团队，将常规客服升级为售前订花顾问、售中专人跟单、售后快速响应的一站式管家客服模式。</p>
+                                    <img alt="客服团队" src="{{static('imgs/m_details_point_05.png') }}">
+                                </div>
+                            </div>
+                            <div class="point">
+                                <div class="point-title">优秀平台汇聚优秀人才</div>
+                                <div class="point-body">
+                                    <p>我们相信优秀的平台环境可以吸引同样气质、热爱花礼行业的优秀人才。</p>
+                                    <img alt="优秀平台汇聚优秀人才" src="{{static('imgs/m_details_point_06.png') }}">
+                                </div>
+                            </div>
+
+                        </section>
+                    </dd>
+                </dl>
+            </div>
+            <div @click="on_tab_content('comment')" class="tab_content" :class="tab_content.comment?'current':''">
+                <dl>
+                    <dd class="detail_hd">用户评价</dd>
+                    <ul class="judge_list_con" v-for="remark in comments" v-cloak="">
+                        <li class="judge_list">
+                            <div class="user_info">
+                                <img src="{{static('imgs/user.jpg')}}">
+                                <b>[[remark.username]]</b>
+                            </div>
+                            <div class="judge_info">
+                                <div :class="remark.score_class"></div>
+                                <div class="remark">[[remark.comment]]</div>
+                            </div>
+                        </li>
+                    </ul>
+                </dl>
+            </div>
+            <div @click="on_tab_content('problem')" class="tab_content" :class="tab_content.problem?'current':''">
+                <dl>
+                    <dd class="detail_hd">常见问题</dd>
+                    <dd class="detail_bd">
+                        <ul>
+                            <h3>购买前如有问题，请向花里有话网<a class="servicer" href="javascript:;">线上客服</a>咨询。</h3>
+                            <li>
+                                <h4><i class="dfont"></i>我订的鲜花快多久能送到？</h4>
+                                <p>在您订购付款后，鲜花最快1-3个小时送到接收人手上。（注：此时间为可能的最快送货时间，我们会确保在您下单所选时间段内送达。）蛋糕一般提前半天订购就可以送到。</p>
+                            </li>
+                            <li>
+                                <h4><i class="dfont"></i>我订鲜花需要提前预订吗？</h4>
+                                <p>鲜花一般提前半天订购就可以送到。当然，您提前一个月、两个月、半年，或提前更长时间订购都是可以的，我们都会在您指定的日期为您配送。 所有鲜花都是配送当日新鲜材料制作而成，确保新鲜度，敬请放心订购！</p>
+                                <p>越早订，越从容：</p>
+                                <p>1.您提前预订，方便我们提前安排；</p>
+                                <p>2.如果您订的鲜花含有特殊花材，则是需要提前预订的，提前预订可确保花材齐全；</p>
+                                <p>3.提前订好，我们会记住您选择的配送日期，按指定日期准时送达，即使忙碌，也保证您不会错过任何一个重要的日子！</p>
+                            </li>
+                            <li>
+                                <h4><i class="dfont"></i>异地送花可以吗？(如：我人在上海可以送花到杭州去吗？)</h4>
+                                <p>可以，花里有话网在江浙沪内全部市/区、大部分县级城市都可以按时配送，目前可送达城市200+。而且，确保新鲜度，敬请放心订购！</p>
+                            </li>
+                            <li>
+                                <h4><i class="dfont"></i>我要选择某一个时段送到？可以吗？</h4>
+                                <p>提交订单时您可以选择上午(8:30-12:00)、下午(12:00-18:00)、晚上(18:00-21:00)三个时段；如果对配送时间点有特别需求，您可以选择定时服务。特别提示：如果下单时间距离所选时段少于3小时，您所选时段无法满足的情况下，将尽量在您付款后3小时内送到。</p>
+                            </li>
+                            <li>
+                                <h4><i class="dfont"></i>关于售后服务：</h4>
+                                <p>我们一直致力于持续提升服务水平，追求零客诉，我们为客户提供完善的售后服务。如果出现误单、花材不符、贺卡有误或者其他任何您不满意的情况，欢迎您第一时间与我们联系，我们将尽快为您做出回复和处理。200%退赔承诺，即如果漏单未送，订单款项全额退还给您，原订单商品同时再免费配送一次，</p>
+                                <p><a href="{{ url('contents:index') }}">详见售后服务条款>></a></p>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <div @click="on_tab_content('service')" class="tab_content" :class="tab_content.service?'current':''">
+                <dl>
+                    <dd class="detail_hd">购物保障</dd>
+                    <div class="detail_bd">
+                        <div class="pt fl">
+                            <span class="pt_zheng fl"></span>
+                            <i class="fl"><h4>原创花艺</h4><p>正品保障，提供发票</p></i>
+                        </div>
+                        <div class="pt fl">
+                            <span class="pt_wu fl"></span>
+                            <i class="fl"><h4>3小时配送</h4><p>协同物流，急速送达</p></i>
+                        </div>
+                        <div class="pt fl">
+                            <span class="pt_hou fl"></span>
+                            <i class="fl"><h4>销量领先</h4><p>7天无理由退换货</p></i>
+                        </div>
+                        <div class="pt fl">
+                            <span class="pt_te fl"></span>
+                            <i class="fl"><h4>百万客户信赖</h4><p>正规发票，多年信誉</p></i>
+                        </div>
+                        <div class="pt fl">
+                            <span class="pt_help fl"></span>
+                            <i class="fl"><h4>低价保障</h4><p>您的购物指南</p></i>
+                        </div>
+                        <img style="padding-top: 30px;" src="{{static('imgs/server.jpg')}}">
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block ejs %}
+<script type="text/javascript">
+    let category_id = "{{ good.category.id }}";
+    let sku_id = "{{ good.id }}";
+    let sku_price = "{{ good.price }}";
+    let sku_mprice="{{ good.market_price }}"
+    let imgUrlList = {{ imgs | safe }};
+</script>
+<script type="text/javascript" src="{{ static('js/detail.js') }}"></script>
+{% endblock %}

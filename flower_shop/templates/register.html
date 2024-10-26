@@ -1,0 +1,91 @@
+{% extends './common.html' %}
+
+{% block title %}花里有话-注册{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/login.css') }}">
+{% endblock %}
+
+{% block login %}
+{% endblock %}
+
+{% block content %}
+<div class="register_con">
+	<div class="reg_title">
+		<a href="{{ url('users:register') }}">用户注册</a><span>USER REGISTER</span>
+	</div>
+	<div class="register_main">
+		<div class="reg_form clear">
+			<form method="post" class="register_form" @submit="on_submit" v-cloak>
+				{{ csrf_input }}
+				<ul>
+					<li>
+						<label>用户名:</label>
+						<input type="text" name="username" v-model="username" @blur="check_username" id="user_name">
+						<span class="error_tip" v-show="error_name">[[ error_name_message ]]</span>
+					</li>
+					<li>
+						<label>密码:</label>
+						<input type="password" v-model="password" @blur="check_password" name="password" id="pwd">
+						<span class="error_tip" v-show="error_password">请输入8-20位的密码</span>
+					</li>
+					<li>
+						<label>确认密码:</label>
+						<input type="password" v-model="password2" @blur="check_password2" name="password2" id="cpwd">
+						<span class="error_tip" v-show="error_password2">两次输入的密码不一致</span>
+					</li>
+					<li>
+						<label>手机号:</label>
+						<input type="text" v-model ="mobile" @blur="check_mobile"name="mobile" id="phone">
+						<span class="error_tip" v-show="error_mobile">[[ error_mobile_message ]]</span>
+					</li>
+					<li>
+						<label>图形验证码:</label>
+						<input type="text" v-model="image_code" @blur="check_image_code" name="image_code" id="pic_code1" class="msg_input1">
+						<img :src="image_code_url" @click="generate_image_code" alt="图形验证码" class="pic_code">
+						<span class="error_tip" v-show="error_image_code">[[ error_image_code_message ]]</span>
+					</li>
+					<li>
+						<label>短信验证码:</label>
+						<input type="text" v-model="sms_code" @blur="check_sms_code" name="sms_code" id="msg_code" class="msg_input1">
+						<a @click="send_sms_code" class="get_msg_code">[[ sms_code_tip ]]</a>
+						<span class="error_tip" v-show="error_sms_code">[[ error_sms_code_message ]]</span>
+						{% if sms_code_errmsg %}
+						<span class="error_tip">{{ sms_code_errmsg }}</span>
+						{% endif %}
+					</li>
+					<li class="agreement">
+						<input type="checkbox" v-model="allow" @change="check_allow" name="allow" id="allow">
+						<label>同意”花里有话商城用户使用协议“</label>
+						<span class="error_tip" v-show="error_allow">请勾选用户协议</span>
+						{% if register_errmsg %}
+						<span class="error_tip">{{ register_errmsg }}</span>
+						{% endif %}
+					</li>
+					<li class="reg_sub">
+						<input type="submit" value="注 册">
+					</li>
+				</ul>
+			</form>
+		</div>
+		<div class="r_con">
+			<h4>注册即可享受</h4>
+			<p>多年信誉、正规发票</p>
+			<p>货到付款、在线支付</p>
+			<p>会员特权、售后服务</p>
+			<h4>已拥有账号</h4>
+			<p>登录即可体验送货上门！</p>
+			<p></p>
+			<a href="{{ url('users:login') }}">立即登录</a>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block foot %}
+{% endblock %}
+
+
+{% block ejs %}
+
+	<script type="text/javascript" src="{{ static('js/register.js') }}"></script>
+{% endblock %}

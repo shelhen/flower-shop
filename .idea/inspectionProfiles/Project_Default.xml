@@ -1,0 +1,43 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ourVersions">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="3.12" />
+            <item index="1" class="java.lang.String" itemvalue="3.13" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="13">
+            <item index="0" class="java.lang.String" itemvalue="Pyarrow" />
+            <item index="1" class="java.lang.String" itemvalue="xlsxwriter" />
+            <item index="2" class="java.lang.String" itemvalue="fitz" />
+            <item index="3" class="java.lang.String" itemvalue="bixin" />
+            <item index="4" class="java.lang.String" itemvalue="gensim" />
+            <item index="5" class="java.lang.String" itemvalue="palettable" />
+            <item index="6" class="java.lang.String" itemvalue="pyLDAvis" />
+            <item index="7" class="java.lang.String" itemvalue="pymysql" />
+            <item index="8" class="java.lang.String" itemvalue="tinycss" />
+            <item index="9" class="java.lang.String" itemvalue="geopandas" />
+            <item index="10" class="java.lang.String" itemvalue="wordcloud" />
+            <item index="11" class="java.lang.String" itemvalue="pingouin" />
+            <item index="12" class="java.lang.String" itemvalue="squarify" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N803" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

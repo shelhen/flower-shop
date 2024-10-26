@@ -1,0 +1,165 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1673320469051') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gift:before {
+  content: "\e601";
+}
+
+.icon-quanbudingdan:before {
+  content: "\e600";
+}
+
+.icon-dingdanguanli:before {
+  content: "\e632";
+}
+
+.icon-cart:before {
+  content: "\e607";
+}
+
+.icon-pay:before {
+  content: "\e630";
+}
+
+.icon-weipingjia:before {
+  content: "\e633";
+}
+
+.icon-shouye:before {
+  content: "\e625";
+}
+
+.icon-kefu:before {
+  content: "\e657";
+}
+
+.icon-dianhua:before {
+  content: "\e60f";
+}
+
+.icon-shangpinguanli:before {
+  content: "\e66e";
+}
+
+.icon-yonghuguanli:before {
+  content: "\e620";
+}
+
+.icon-yunshuzhongwuliu:before {
+  content: "\e883";
+}
+
+.icon-tuikuan:before {
+  content: "\e8b2";
+}
+
+.icon-pingjiaguanli:before {
+  content: "\e6ed";
+}
+
+.icon-tuandui_keshi:before {
+  content: "\e685";
+}
+
+.icon-kefu1:before {
+  content: "\e873";
+}
+
+.icon-bianji:before {
+  content: "\e8ac";
+}
+
+.icon-defenxiangqing:before {
+  content: "\e636";
+}
+
+.icon-shangpinguanli2:before {
+  content: "\e809";
+}
+
+.icon-bianji1:before {
+  content: "\e635";
+}
+
+.icon-huiyuan:before {
+  content: "\e639";
+}
+
+.icon-sousuo2:before {
+  content: "\e63c";
+}
+
+.icon-a-zhifuqianbaodaizhifu:before {
+  content: "\e63f";
+}
+
+.icon-a-xinxiliaotiantongzhi:before {
+  content: "\e640";
+}
+
+.icon-dibu:before {
+  content: "\e669";
+}
+
+.icon-gouwuche:before {
+  content: "\e677";
+}
+
+.icon-down:before {
+  content: "\e95b";
+}
+
+.icon-edit:before {
+  content: "\e95c";
+}
+
+.icon-left:before {
+  content: "\e968";
+}
+
+.icon-right:before {
+  content: "\e975";
+}
+
+.icon-sketch:before {
+  content: "\e979";
+}
+
+.icon-thunderbolt:before {
+  content: "\e97d";
+}
+
+.icon-trophy:before {
+  content: "\e97e";
+}
+
+.icon-up:before {
+  content: "\e980";
+}
+
+.icon-user:before {
+  content: "\e982";
+}
+
+.icon-mima:before {
+  content: "\e696";
+}
+
+.icon-a-shanchulajitong:before {
+  content: "\e697";
+}
+
+.icon-W-26:before {
+  content: "\e60a";
+}
+

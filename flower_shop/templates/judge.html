@@ -1,0 +1,49 @@
+{% extends './common.html' %}
+{% block title %} 花里有话网-订单评价 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/user_center.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="judge_con" v-for="(sku,index) in skus">
+        <div class="judge_goods fl">
+            <ul>
+                <li>
+                    <a :href="sku.url"><img :src="sku.default_image_url"></a>
+                    <h4><a :href="sku.url">[[ sku.name ]]</a></h4>
+                    <div class="price">￥[[ sku.price ]]</div>
+                </li>
+            </ul>
+        </div>
+        <div class="judge_goods_input fr">
+            <div class="judge_item">
+                <label>商品满意度</label>
+                <div class="stars fl">
+                    <a @mouseover="on_stars_mouseover(index, 1)" @mouseout="on_stars_mouseout(index)" @click="on_stars_click(index, 1)" class="star_off" :class="sku.score>=1?'light':''"></a>
+					<a @mouseover="on_stars_mouseover(index, 2)" @mouseout="on_stars_mouseout(index)" @click="on_stars_click(index, 2)" class="star_off" :class="sku.score>=2?'light':''"></a>
+					<a @mouseover="on_stars_mouseover(index, 3)" @mouseout="on_stars_mouseout(index)" @click="on_stars_click(index, 3)" class="star_off" :class="sku.score>=3?'light':''"></a>
+					<a @mouseover="on_stars_mouseover(index, 4)" @mouseout="on_stars_mouseout(index)" @click="on_stars_click(index, 4)" class="star_off" :class="sku.score>=4?'light':''"></a>
+					<a @mouseover="on_stars_mouseover(index, 5)" @mouseout="on_stars_mouseout(index)" @click="on_stars_click(index, 5)" class="star_off" :class="sku.score>=5?'light':''"></a>
+                </div>
+                <div class="score">[[ sku.display_score ]]分</div>
+            </div>
+            <div class="judge_item">
+                <label>发表评价</label>
+                <textarea class="judge_area" v-model="sku.comment"></textarea>
+            </div>
+            <div class="judge_item">
+                <input type="input" @click="save_comment(index)" value="提 交" class="judge_sub">
+                <input type="checkbox" v-model="sku.is_anonymous" class="no_name"> 匿名评价
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block ejs %}
+  <script type="text/javascript">
+    var skus = {{ skus|safe }};
+  </script>
+  <script type="text/javascript" src="{{ static('js/judge.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends './user_center_info.html' %}
+
+{% block content %}
+    <div id="app" v-cloak>
+        <div class="main_con clearfix">
+            <div class="w">
+                {% block left_menu_con %}
+                    <div class="left_menu_con clearfix">
+                        <h3>会员中心</h3>
+                        <ul>
+                            <li><a href="/info/">个人信息</a></li>
+                            <li><a href="/addresses/" class="user_menu_active">收货地址</a></li>
+                            <li><a href="/orders/0/1/">我的订单</a></li>
+                            <li><a href="/user/comment/1/">评价晒单</a></li>
+                            <li><a href="/password/">修改密码</a></li>
+                        </ul>
+                    </div>
+                {% endblock %}
+                {% block right_content %}
+                    <div class="right_content clearfix">
+                        <div class="site_con">
+                            <div class="site_top_con">
+                                <a @click="show_add_site">新增收货地址</a>
+                                <span>你已创建了<b>[[ addresses.length ]]</b>个收货地址，最多可创建<b>20</b>个</span>
+                            </div>
+                            <div>
+                                <table>
+                                    <thead class="site_title">
+                                        <tr>
+                                            <th class="consignee">收货人</th>
+                                            <th class="shipping">收货地址</th>
+                                            <th class="phone">联系电话</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="address-info" v-for="(address, index) in addresses">
+                                            <th class="consignee">[[ address.receiver ]]</th>
+                                            <th class="shipping">[[ address.province ]] [[address.city]] [[ address.district ]] [[ address.place ]]</th>
+                                            <th class="phone">[[ address.mobile ]]</th>
+                                            <th>
+                                                <em class="defaut_decrate" v-if="address.id===default_address_id">默认地址</em>
+                                                <a v-if="address.id!=default_address_id" @click="set_default(index)">设为默认</a>
+                                                <a class="edit_icon" @click="show_edit_site(index)">编辑</a>
+                                                <a class="del_icon" @click="delete_address(index)">删除</a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+        <div class="pop_con" v-show="is_show_edit" v-cloak>
+            <div class="site_pop_title">
+                <h3  class="common_title2">新增收货地址</h3>
+                <a @click="is_show_edit=false">×</a>
+            </div>
+            <form class="pop_con_form">
+                    <div class="form_item clearfix">
+                        <label>*收货人：</label>
+                        <input v-model="form_address.receiver" @blur="check_receiver" type="text" class="receiver">
+                        <span v-show="error_receiver" class="error_message">请填写收件人</span>
+                    </div>
+                    <div class="form_item clearfix">
+                        <label>*所在地区：</label>
+                        <select v-model="form_address.province_id">
+                            <option class="fmgp2_opt" v-for="province in provinces" :value="province.id">[[ province.name ]]</option>
+                        </select>
+                        <select v-model="form_address.city_id">
+                            <option class="fmgp2_opt" v-for="city in cities" :value="city.id">[[ city.name ]]</option>
+                        </select>
+                        <select v-model="form_address.district_id">
+                            <option class="fmgp2_opt" v-for="district in districts" :value="district.id">[[ district.name ]]</option>
+                        </select>
+                    </div>
+                    <div class="form_item clearfix">
+                        <label>*详细地址：</label>
+                        <input v-model="form_address.place" @blur="check_place" type="text" class="place">
+                        <span v-show="error_place" class="error_message">请填写地址信息</span>
+                    </div>
+                    <div class="form_item clearfix">
+                        <label>*手机：</label>
+                        <input v-model="form_address.mobile" @blur="check_mobile" type="text" class="mobile">
+                        <span v-show="error_mobile" class="error_message">手机信息有误</span>
+                    </div>
+                    <div class="clearfix">
+                        <input @click="save_address" type="button" name="" value="保 存" style="margin-left: 70px!important;" class="sitesave_btn">
+                        <input @click="is_show_edit=false" type="reset" name="" value="取 消" class="sitesave_btn">
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block ejs %}
+<script type="text/javascript">
+        // let username="{{ username }}";
+        // let mobile = "{{ mobile }}";
+		let addresses = {{ addresses | safe }};
+		let default_address_id = {{ default_address_id }};
+</script>
+<script type="text/javascript" src="{{ static('js/user_center_site.js') }}"></script>
+{% endblock %}

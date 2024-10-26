@@ -1,0 +1,134 @@
+
+<!DOCTYPE>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>高品商城-商品搜索</title>
+    <link rel="stylesheet" type="text/css" href="{{ static('css/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static('css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static('css/common.css') }}">
+    <link rel="stylesheet" href="{{ static('fonts/iconfont.css') }}">
+    <link rel="shortcut icon" href="{{ static('favicon.ico') }}" type="image/x-icon"/>
+    <script type="text/javascript" src="{{ static('js/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ static('js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/axios-0.18.0.min.js') }}"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="shortcut" v-cloak>
+            <div class="clearfix w">
+                <a class="fl" href="{{ url('contents:index') }}">欢迎来到高品商城<em class="divi">|</em> <em class="divi"> </em><a href="#" class="ar">&nbsp;上海&nbsp;·&nbsp;松江</a></a>
+                <div class="menu fr">
+                    <a href="{{ url('users:info') }}">用户中心</a><em class="divi">|</em>
+                    <a href="/ordrinfo/1/">我的订单</a><em class="divi">|</em>
+                    <a href="#">资质证照</a><em class="divi">|</em>
+                    <a href="#">客户服务</a><em class="divi">|</em>
+                    <a href="#">网站导航</a>
+                </div>
+                <div class="login_status fr">
+                    <div v-if="username" class="login_btn fl">
+                        欢迎您：<em class="quit">[[ username ]]</em>
+                        <em class="divi"></em>
+                        <a href="{{ url('users:logout') }}" class="quit">退出</a><em class="divi"> | </em>
+                    </div>
+                    <div v-else class="login_btn fl">
+                        <a href="{{ url('users:login') }}">登录</a><em>|</em>
+                        <a href="{{ url('users:register') }}">注册</a><em class="divi">&nbsp;&nbsp;&nbsp;</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav_top w clearfix">
+            <div class="logo"><h1><a href="{{ url('contents:index') }}" title="高品手机商城首页">高品手机商城</a></h1></div>
+            <div class="search">
+                <form method="get" action="/search/" class="search_con clearfix">
+                    <input type="search" name="q" placeholder="iphone13">
+                    <button name="">搜索</button>
+                </form>
+                <div class="hotword">
+                    <ul><span class="hotword_tit">热门搜索：</span>
+                        <li><a href="#">华为 P50E</a></li>
+                        <li><a href="#">Nava 5i</a></li>
+                        <li><a href="#">iphone</a></li>
+                        <li><a href="#">小米</a></li>
+                        <li><a href="#">红米note8 Pro</a></li>
+                    </ul>
+                </div>
+            </div>
+           <div @mouseenter="get_carts" class="cart" v-cloak>
+                <a href="{{ url('carts:info')}}">&nbsp;&nbsp;我的购物车<em class="divi"></em></a>
+                <div class="goods_count fl" id="show_count">[[ cart_total_count ]]</div>
+
+                <ul class="cart_goods_show">
+                    <li v-for="sku in carts">
+                        <img :src="sku.default_image_url" alt="商品图片">
+                        <h4>[[ sku.name ]]</h4>
+                        <div>[[ sku.count ]]</div>
+                    </li>
+        		</ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>>
+    <div class="main_wrap clearfix">
+        <div class=" clearfix">
+            <ul class="w goods_type_list clearfix">
+                {% for result in page %}
+                <li>
+                    <a href="{{ url('goods:detail', args=(result.object.id, )) }}"><img src="{{ result.object.default_image.url }}"></a>
+                    <h4><a href="{{ url('goods:detail', args=(result.object.id, )) }}">{{ result.object.name }}</a></h4>
+                    <div class="operate">
+                        <span class="price">￥{{ result.object.price }}</span>
+                        <span class="coment1">{{ result.object.comments }}</span>评价
+                        <a @click="add_cart({{ result.object.id }})" class="add_goods" id="add_cart" title="加入购物车"></a>
+                    </div>
+                </li>
+                {% else %}
+                    <p>没有找到您要查询的商品。</p>
+                {% endfor %}
+            </ul>
+            <div class="pagenation">
+                <div id="pagination" class="page"></div>
+            </div>
+        </div>
+    </div>
+    <div class="w">
+        <div class="copyright clearfix">
+			<div class="foot_menu">
+				<ul>
+					<li><a href="#">关于我们</a><em class="divi2">|</em></li>
+					<li><a href="#">联系我们</a><em class="divi2">|</em></li>
+					<li><a href="#">联系客服</a><em class="divi2">|</em></li>
+					<li><a href="#">品牌专区</a><em class="divi2">|</em></li>
+					<li><a href="#">友情链接</a><em class="divi2">|</em></li>
+					<li><a href="#">高品社区</a><em class="divi2">|</em></li>
+					<li><a href="#">高品资本</a><em class="divi2">|</em></li>
+					<li><a href="#">投诉建议</a><em class="divi2">|</em></li>
+					<li><a href="#">English Site</a><em class="divi2">|</em></li>
+					<li><a href="#">Contact U</a></li>
+				</ul>
+            </div>
+            <div class="foot_copyright">
+                <p>地址：江苏省徐州市丰县解放西路145号(近振大超市)<span> </span>邮编：221700<span> </span>电话：0516-89378888<span> </span>传真：0516-89378888<span> </span>邮箱: shelhen@163.com
+                    <br>Copyright © 2022年<span> </span>高品手机网<span> </span>All Rights Reserved。<span> </span>-苏ICP备15****10号
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="{{ static('js/common.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/search.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#pagination').pagination({
+                currentPage: {{ page.number }},
+                totalPage: {{ paginator.num_pages }},
+                callback:function (current) {
+                    window.location.href = '/search/?q=iphone&amp;page=1';
+                    window.location.href = '/search/?q={{ query }}&page=' + current;
+                }
+            })
+        });
+    </script>
+</body>
+</html>

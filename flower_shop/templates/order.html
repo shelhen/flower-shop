@@ -1,0 +1,117 @@
+{% extends './common.html' %}
+{% block title %} 花里有话网-确认订单 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/list.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="order_submit_con">
+    <div class="common_list_con">
+        <h3>确认收货地址</h3>
+        <ul>
+            {% if addresses %}
+            <h5>寄送到：</h5>
+            {% for address in addresses %}
+            <li @click="nowsite={{ address.id }}" class="com_item">
+                <input type="radio" v-model="nowsite" value="{{ address.id }}">
+                <span>
+                    {{ address.province }} {{ address.city }} {{ address.district }}  {{address.place}}（{{ address.receiver }} 收）{{ address.mobile }}
+                </span>
+            </li>
+            {% endfor %}
+            {% endif %}
+            <a href="{{ url('users:address') }}" class="site_edit">编辑收货地址</a>
+        </ul>
+    </div>
+    <div class="common_list_con">
+        <h3>支付方式</h3>
+        <ul>
+            <li class="pay_style_con">
+                <input type="radio" name="pay_method" value="1" v-model="pay_method">
+                <label class="cash">货到付款</label>
+                <input type="radio" name="pay_method" value="2" v-model="pay_method">
+                <label class="zhifubao"></label>
+                <input type="radio" name="pay_method" value="3" v-model="pay_method">
+                <label class="weixin">微信支付</label>
+                <input type="radio" name="pay_method" value="4" v-model="pay_method">
+                <label class="bank">银联支付</label>
+            </li>
+        </ul>
+    </div>
+    <div class="common_list_con clearfix">
+        <h3>核对购物清单</h3>
+        <div class="goods_list">
+            <ul class="goods_list_th">
+                <li class="col01">商品名称</li>
+                <li class="col02">商品单位</li>
+                <li class="col03">商品价格</li>
+                <li class="col04">数量</li>
+                <li class="col05">小计</li>
+            </ul>
+            {% for sku in skus %}
+            <ul class="goods_list_td">
+                <li class="col01">{{loop.index}}</li>
+                <li class="col02"><img src="{{ sku.default_image.url }}"></li>
+                <li class="col03">{{ sku.name }}</li>
+                <li class="col04">份</li>
+                <li class="col05">￥{{ sku.price }}</li>
+                <li class="col06">{{ sku.count }}</li>
+                <li class="col07">￥{{ sku.amount }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="common_list_con">
+        <h3>贺卡留言</h3>
+        <ul class="clearfix">
+            <div class="words_l_con">
+                <textarea name="words" id="words" v-model="words" placeholder="写下您的祝福语，可附上署名（200字以内）" rows="5" maxlength="200"></textarea>
+                <span id="word"><span>[[num]]</span>/200</span>
+            </div>
+            <div class="words_r_con">
+                <div class="words2">
+                    {% for d in desc %}
+                    <p @click="change_word($event)">{{d}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </ul>
+    </div>
+    <div class="common_list_con">
+        <h3>选择配送方式</h3>
+        <ul>
+            <li class="devery_con">
+                <input type="radio" name="delivery" value="1" v-model="delivery">
+                <label class="delivery" style="margin-right: 30px">正常配送</label>
+                <input type="radio" name="delivery" value="2" v-model="delivery">
+                <label class="delivery">加急配送 （需加运费{{freight}}元）</label>
+            </li>
+        </ul>
+    </div>
+    <div class="common_list_con">
+        <h3>总金额结算</h3>
+        <div class="settle_con">
+            <div class="total_goods_count">
+                <p>共<b>{{ total_count }}</b>件商品，总金额<b>[[ total_amount ]]元</b></p>
+                <p>运费：<b>[[freight]]元</b></p>
+                <p>实付款：<b>[[ payment_amount ]]元</b></p>
+            </div>
+            <div class="order_submit clearfix">
+                <a @click="order_submit" id="order_btn">订单支付</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block ejs %}
+<script type="text/javascript">
+    let freight="{{freight}}"
+    let default_address_id = "{{ user.default_address.id }}";
+    let total_amount = "{{ total_amount  }}";
+    let payment_amount="{{payment_amount}}"
+</script>
+    <script type="text/javascript" src="{{ static('js/orders.js') }}"></script>
+{% endblock %}

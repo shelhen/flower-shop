@@ -1,0 +1,66 @@
+{% extends './common.html' %}
+{% block title %} 花里有话网-购物车 {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ static('css/list.css') }}">
+{% endblock %}
+
+{% block navitems %}
+    <a href="{{ url('contents:index') }}">网站首页</a>
+    <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+    <a href="/flowerylist/1/">浪漫花语</a>
+    <a href="{{ url('users:info') }}">会员中心</a>
+    <a class="navi_active" href="{{ url('carts:info')}}">购物车</a>
+{% endblock %}
+
+{% block content %}
+   <div id="app">
+       <div class="cart_con">
+           <div class="total_count">我的购物车<span>全部商品<em>[[ total_count ]]</em>件</span></div>
+           <div class="cart_list">
+               <ul class="cart_list_th clearfix">
+                   <li class="col01">名称</li>
+                   <li class="col02">单价</li>
+                   <li class="col03">市场价</li>
+                   <li class="col04">现价</li>
+                   <li class="col05">数量</li>
+                   <li class="col06">操作</li>
+               </ul>
+               <ul class="cart_list_td clearfix" v-for="(cart_sku,index) in carts" v-cloak>
+                   <li class="col01"><input type="checkbox" name="" v-model="cart_sku.selected" @change="update_selected(index)"></li>
+                   <li class="col02"><img :src="cart_sku.default_image_url"></li>
+                   <li class="col03">[[ cart_sku.name ]]</li>
+                   <li class="col04">￥[[ cart_sku.price ]]</li>
+                   <li class="col05">￥[[ cart_sku.mprice ]]</li>
+                   <li class="col06">￥[[ cart_sku.amount ]]</li>
+                   <li class="col07">
+                       <div class="num_add">
+                           <a @click="on_minus(index)" class="minus fl">-</a>
+                           <input v-model="cart_sku.count" @blur="on_input(index)" type="text" class="num_show fl">
+                           <a @click="on_add(index)" class="add fl">+</a>
+                       </div>
+                   </li>
+                   <li class="col08"><a @click="on_delete(index)">删除</a></li>
+               </ul>
+           </div>
+           <ul class="settlements" v-cloak>
+               <li class="col01"><input type="checkbox" name="" @change="on_selected_all" v-model="selected_all"></li>
+               <li class="col02">全选</li>
+               <li class="col03">
+                   合计（不含运费）总金额：<span>¥</span><b>[[ total_selected_amount ]]</b>元
+                   <br>共<b>[[ total_selected_count ]]</b>件商品
+               </li>
+               <li class="col04"><a href="{{ url('orders:settlement') }}">去结算</a></li>
+           </ul>
+       </div>
+  </div>
+
+{% endblock %}
+
+
+{% block ejs %}
+<script type="text/javascript">
+    let carts = {{ cart_skus | safe }};
+</script>
+    <script type="text/javascript" src="{{ static('js/cart.js') }}"></script>
+{% endblock %}

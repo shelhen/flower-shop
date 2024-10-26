@@ -1,0 +1,87 @@
+{% extends './user_center_info.html' %}
+
+{% block content %}
+<div class="main_con clearfix">
+    <div class="w">
+        {% block left_menu_con %}
+        <div class="left_menu_con clearfix">
+            <h3>会员中心</h3>
+            <ul>
+                <li><a href="/info/">个人信息</a></li>
+                <li><a href="/addresses/">收货地址</a></li>
+                <li><a href="/orders/0/1/" class="user_menu_active">我的订单</a></li>
+                <li><a href="/user/comment/1/">我的评价</a></li>
+                <li><a href="/password/">修改密码</a></li>
+            </ul>
+        </div>
+        {% endblock %}
+        {% block right_content %}
+        <div class="right_content clearfix">
+            <ul class="order_nav">
+                <span class="ggg"> </span>
+                <a class="nav-items" href="{{ url('users:orders', args=(0, 1)) }}">全部订单</a>
+                {% for statu in status %}
+                <a class="nav-items" href="{{ url('users:orders', args=(statu.id, 1)) }}">{{statu.name}}</a>
+                {% endfor %}
+            </ul>
+            <div class="order_list">
+                {% for order in page_orders %}
+                    <ul class="order_list_th">
+                        <li class="col01">2{{ order.create_time.strftime('%Y-%m-%d %H:%M:%S') }}</li>
+                        <li class="col02">订单号：<span>{{ order.order_id }}</span></li>
+                    </ul>
+                    <table class="order_list_td">
+                        <tbody>
+                            <tr>
+                                <td class="tol01">
+                                    {% for sku in order.sku_list %}
+                                        <ul class="order_item clearfix">
+                                            <li class="col01"><img src="{{ sku.default_image.url }}"></li>
+                                            <li class="col02"><span>{{ sku.name }}</span><em>￥{{ sku.price }}</em></li>
+                                            <li class="col03">{{ sku.count }}</li>
+                                            <li class="col04">￥{{ sku.amount }}</li>
+                                        </ul>
+                                    {% endfor %}
+                                </td>
+                                <td class="tol02">￥{{ order.total_amount }}<br>含运费：￥{{ order.freight }}</td>
+                                <td class="tol03">{{ order.pay_method_name }}</td>
+                                <td class="tol04">
+                                    <a @click="oper_btn_click('{{ order.order_id }}', {{ order.status }})" class="oper_btn">{{order.status_name}}</a>
+                                    {% if order.status_name in ["待收货"] %}
+                                        <a @click="withdraw_btn('{{ order.order_id }}')" class="oper_btn">申请退款</a>
+                                    {% elif order.status_name in ["待评价","已完成"] %}
+                                        <a @click="withdraw_btn('{{ order.order_id }}')" class="oper_btn">退货退款</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% endfor %}
+                <div id="pagination"></div>
+            </div>
+
+        </div>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block ejs %}
+<script type="text/javascript">
+    let statu_id = "{{ statu_id }}";
+</script>
+<script type="text/javascript" src="{{ static('js/user_center_order.js') }}"></script>
+<script type="text/javascript" src="{{ static('js/jquery.pagination.min.js') }}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#pagination').pagination({
+            currentPage: {{ page_num }}, // 当期所在页码
+        totalPage: {{ total_page }},   // 总页数
+        callback:function (current) {
+            location.href = '/orders/{{ statu_id }}/' + current + '/';
+        }
+    })
+    });
+</script>
+{% endblock %}

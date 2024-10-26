@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 图标 -->
+    <link rel="shortcut icon" href="{{static('favicon.ico')}}" type="image/x-icon" />
+    <!-- 外嵌引入css -->
+    <link rel="stylesheet" type="text/css" href="{{ static('css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ static('css/common.css') }}">
+    <link rel="stylesheet" href="{{ static('fonts/iconfont.css') }}">
+    {% block css %}   {% endblock %}
+    <!-- 外嵌引入js -->
+    <script type="text/javascript" src="{{ static('js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/axios-0.18.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/jquery.min.js') }}"></script>
+    {% block sjs %}   {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+<body>
+   <div id="app">
+       <div class="shortcut">
+           <!-- 快捷导航栏 -->
+            <div class="short_w">
+                <!-- 首页logo -->
+                <div class="logo">
+                    <h1><a href="{{ url('contents:index') }}" title="花里有话鲜花商城首页">花里有话鲜花商城</a></h1>
+                </div>
+                 <!--       导航栏        -->
+                <div class="navitems fl">
+                    {% block navitems %}
+                        <a href="{{ url('contents:index') }}">网站首页</a>
+                        <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a>
+                        <a href="/flowerylist/1/">浪漫花语</a>
+                        <a href="{{ url('users:info') }}">会员中心</a>
+                        <a href="{{ url('carts:info') }}">购物车</a>
+                    {% endblock %}
+                </div>
+                 <!-- 搜索框 -->
+                 <div class="search">
+                     <form method="get" action="/search/" class="clearfix">
+                         <label>
+                             <input type="search" name="q" placeholder="香槟玫瑰" autocomplete="off">
+                         </label>
+                         <button></button>
+                     </form>
+                 </div>
+                 <!--       登录注销处        -->
+                {% block login %}
+                     <div v-if="username" class="login_btn">
+                         <a class="name" style="color: #F06867" href="{{ url('users:info') }}">[[ username ]]</a>
+                         <a href="{{ url('users:logout') }}">退出</a>
+                     </div>
+                     <div v-else class="login_btn">
+                         <a class="name" href="{{ url('users:login') }}">登录</a>
+                         <a href="{{ url('users:register') }}">注册</a>
+                     </div>
+                 {% endblock %}
+            </div>
+       </div>
+       <div class="clearfix"></div>
+       <!--  主题内容  -->
+       {% block content %}
+
+       {% endblock %}
+       <div id="fixedtool">
+                <a class="user_info9" href="{{ url('users:info') }}"><span></span>个人中心</a>
+                <a class="show_cart" href="{{ url('carts:info') }}"><span></span>购物车<em class="goods_count" id="show_count">0</em></a>
+                <a class="contact" href="javascript:;"><span></span>联系电话<div class="contact_show">400-820-9999</div></a>
+                <a class="servicer" href="javascript:;"><span></span>在线客服</a>
+                <a class="reback" href="javascript:;" ><span></span>回到顶部</a>
+            </div>
+       <div class="server">
+           <div class="servcut">
+               <img src="{{ static('imgs/Logo_cle.png') }}">
+               <h6>机器人客服—小花</h6>
+               <a class="ser_close">×</a>
+           </div>
+           <div class="serbody">
+               <p class="reload_msg">点击加载更多历史消息</p>
+           </div>
+           <div class="inputBox">
+               <textarea id="dope" placeholder="我想知道..."></textarea>
+               <button class="sendBtn">发送(s)</button>
+           </div>
+       </div>
+       <div style="margin-top: 30px;display: block;" class="clearfix"></div>
+       <!--  页面底部  -->
+       <div class="footer">
+           <div class="w">
+               <div class="clearfix"></div>
+               <!--    首页特殊底部    -->
+               {% block foot %}
+               {% endblock %}
+               <div class="clearfix"></div>
+               <div class="copyright">
+                   <div class="copyright_hd clearfix">
+                       <a class="first_a" href="#">关于我们</a>
+                       <a href="{{ url('contents:index') }}">联系我们</a>
+                       <a href="{{ url('contents:index') }}">花店入驻</a>
+                       <a href="{{ url('contents:index') }}">企业团购</a>
+                       <a href="{{ url('contents:index') }}">投诉建议</a>
+                       <a href="{{ url('contents:index') }}">媒体报道</a>
+                       <a href="{{ url('contents:index') }}">友情链接</a>
+                       <a href="{{ url('contents:index') }}">English Site</a>
+                   </div>
+                   <div class="copyright_bd clearfix">
+                       <p>
+                           地址: 上海市松江区G60科创走廊GP-T区-2003栋<i></i>
+                           邮箱: huahua@163.com<i></i>
+                           电话: 400-820-9999<i></i>
+                           传真:400-820-9999<i></i>
+                       </p>
+                       <p>
+                           Copyright © 2022-2026年<i> </i>
+                           "花里有话",鲜花订购网  All Rights Reserved。<i> </i>
+                           -沪ICP备15****10号
+                       </p>
+                   </div>
+               </div>
+           </div>
+
+       </div>
+   </div>
+    <script type="text/javascript" src="{{ static('js/common.js') }}"></script>
+{% block ejs %}
+{% endblock %}
+</body>
+</html>

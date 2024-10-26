@@ -1,0 +1,36 @@
+{% extends './common.html' %}
+{% block title %} 404-Not Found {% endblock %}
+{% block css %}
+<style>
+    .not_con{margin: 30px 0;position: relative;padding: 30px;min-height: 250px;background-color: #fff;border-radius: 8px;box-shadow: 0 1px 5px 0 rgb(0 0 0 / 5%);}
+    .not_con img{margin-left: 450px;width: 230px;height: 210px;}
+    .not_con h4,.not_con p,.not_con h6{text-align: center;color: #F07C7C}
+    .not_con h4{font-size: 22px;padding: 10px 0 5px;}
+    .not_con p{font-size: 16px;margin-bottom: 25px}
+    .not_con a{padding: 4px 25px;font-size: 17px;cursor: pointer;border: 2px solid #F07C7C;color: #fff;background-color:#F07C7C;border-radius: 17px;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="w">
+    <div class="not_con">
+        <img src="{{static('imgs/404.png') }}">
+        <h4>哎呀，你访问的页面不存在！</h4>
+        <p>您输入的网址有误或链接已经过期。</p>
+        <h6><a href="{{ url('contents:index') }}">返回首页</a></h6>
+    </div>
+</div>
+{% endblock %}
+{% block ejs %}
+<script>
+    let vm = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            username: getCookie('username'),
+            host:host,
+        },
+    })
+</script>
+{% endblock %}
+
