@@ -20,12 +20,12 @@ class HuaSpider(object):
         self.session.timeout = 30
         self.base_url = 'https://www.hua.com/'
         self.goodsUrls = {
-            1: ['aiqingxianhua',],
-            2: ['businessFlower/kaiyehualan',],
+            1: ['aiqingxianhua', ],
+            2: ['businessFlower/kaiyehualan', ],
             3: ['youqingxianhua', 'zhufuqinghexianhua'],
             4: ['songzhangbeixianhua', 'songlaoshixianhua'],
-            5: ['tanbingweiwenxianhua',],
-            6: ['daoqianxianhua',],
+            5: ['tanbingweiwenxianhua', ],
+            6: ['daoqianxianhua', ],
             7: ['hunqingxianhua', 'zhufuqinghexianhua'],
         }
         self.pageNum = 1  # 爬取的花语新闻页码数目，不应超过43
@@ -224,7 +224,7 @@ class HuaSpider(object):
                         }
                         self.save(db, 'images2', _img)
                     count += 1
-                    if count %20 == 0:
+                    if count % 20 == 0:
                         self.mysql.commit()
                 db.close()
                 print(f"保存类型为{key}中api为{api}的商品数据成功")
@@ -248,13 +248,12 @@ class HuaSpider(object):
                         print(e)
             print('载入成功。')
 
-
         self.mysql.commit()
         db.close()
 
     def main(self):
         self.session.headers['User-Agent'] = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, '
-                              'like Gecko) Chrome/109.0.0.0 Safari/537.36')
+                                              'like Gecko) Chrome/109.0.0.0 Safari/537.36')
         self.mysql = pymysql.connect(
             host=self.database["HOST"],
             user=self.database['USER'],
@@ -266,8 +265,8 @@ class HuaSpider(object):
         # 外部导入数据
         self.load_datas()
         time.sleep(2)
-        # self.crawl_goods()
-        # time.sleep(2)
+        self.crawl_goods()
+        time.sleep(2)
 
         datas = self.get_content()
         db = self.mysql.cursor()
@@ -315,30 +314,30 @@ class HuaSpider(object):
                          for img in img_node.xpath('./img|./p/img|./div/img')]
             pic_path = [self.download(pic.xpath('./@src').get()) for pic in pics]
             default_image = self.download(f"//img01.hua.com/uploadpic/newpic/{product['ItemCode']}.jpg")
-            sales = float(product['Sales'][:-1])* 10000 if product['Sales'][-1] == '万' else float(product['Sales'])
+            sales = float(product['Sales'][:-1]) * 10000 if product['Sales'][-1] == '万' else float(product['Sales'])
             yield dict(
-                    id=product['ItemCode'],
-                    create_time=str(datetime.now())[0:-7],
-                    update_time=str(datetime.now())[0:-7],
-                    title=product['Cpmc'],
-                    intro=product['Instro'],
-                    caption=caption,
-                    price=product['Price'],
-                    cost_price=float(product['Price']) - 20.00,
-                    mprice=product['LinePrice'],
-                    sales=sales,
-                    sales2=product['Sales'],
-                    detail=floral,
-                    material=material,
-                    pack=package,
-                    default_image=default_image,
-                    category_id=cid,
-                    images=pic_path,
-                    comments=0,
-                    stock=self.stock,
-                    is_launched=1,
-                    detail_images=img_paths
-                )
+                id=product['ItemCode'],
+                create_time=str(datetime.now())[0:-7],
+                update_time=str(datetime.now())[0:-7],
+                title=product['Cpmc'],
+                intro=product['Instro'],
+                caption=caption,
+                price=product['Price'],
+                cost_price=float(product['Price']) - 20.00,
+                mprice=product['LinePrice'],
+                sales=sales,
+                sales2=product['Sales'],
+                detail=floral,
+                material=material,
+                pack=package,
+                default_image=default_image,
+                category_id=cid,
+                images=pic_path,
+                comments=0,
+                stock=self.stock,
+                is_launched=1,
+                detail_images=img_paths
+            )
         # 翻页
         next_page = html.xpath('//ul[@class="pagination"]/li[last()]/a/@href')
         if next_page != '#':
@@ -363,7 +362,7 @@ class HuaSpider(object):
                 article = detail.xpath('//div[@class="article"][1]')
                 img_nodes = article.xpath('./p//img/..|./div//img/..')
 
-                article = remove_tags(article.get(), keep=('strong', ))
+                article = remove_tags(article.get(), keep=('strong',))
                 text = replace_entities('\n'.join([text.strip() for text in article.split('\n') if text.strip()]))
                 text = text.replace('花礼网', ' 花里有花网 ').replace('鲜花推荐/', '').replace('/', '').replace('~', '')
                 imgs = []
@@ -397,8 +396,8 @@ class HuaSpider(object):
         filename = hashlib.md5(response)
         with open(dirname / f'{filename.hexdigest()}.jpg', 'wb') as f:
             f.write(response)
-        return str(dirname / f'{filename.hexdigest()}.jpg').split('static')[-1].strip("\\")
-
+        path = str(dirname / f'{filename.hexdigest()}.jpg').split('flower_shop')[-1].strip("\\")
+        return path.replace('\\', '\\\\')
 
 
 if __name__ == '__main__':

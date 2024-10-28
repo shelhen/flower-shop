@@ -61,6 +61,8 @@ class HotGoodsView(View):
             }
             hot_skus.append(sku_dict)
         return http.JsonResponse({'code': RETCODE.OK, 'errmsg': 'OK', 'hot_skus': hot_skus})
+
+
 class DetailView(View):
     """商品详情页"""
     def get(self, request, sku_id):
