@@ -13,7 +13,9 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/flower_shop/apps" isTestSource="false" />
+    </content>
     <orderEntry type="jdk" jdkName="django4_py310" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

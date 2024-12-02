@@ -7,6 +7,7 @@
 
 {% block content %}
 <div class="w">
+    {{ csrf_input }}
     <div class="breadcrumb">
         <a href="{{ url('contents:index') }}">首页</a><span> ></span>
         <a href="{{ url('goods:list', args=(0, 1)) }}?sort=default">鲜花分类</a><span> ></span>

@@ -6,3 +6,4 @@ django-redis
 Pillow
 PyMySQL
 python-alipay-sdk
+django-simpleui

@@ -38,22 +38,85 @@
 ```
 
 ## 四、安装与运行
-1.克隆项目，安装`mysql-server`和`redis-server`。
+### 1.克隆项目，本地安装`mysql-server`和`redis-server`。
 
-2.配置环境，环境文件处于`requiremnets.txt`中。
+### 2.配置环境，建议创建虚拟环境，项目所需依赖环境文件处于`requiremnets.txt`中。
+```shell
+# 建议切换清华源安装
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt
+pip3 install -r requiremnets.txt
+```
 
-3.项目配置，在`dev`文件中修改`redis`和`mysql`对应的`IP`和端口。
+### 3.项目配置
+创建数据库`flower`，编码为`utf8`:
+```mysql
+create database flower charset=utf8;
+```
+在`dev`文件中修改`redis`和`mysql`对应的`IP`和端口。
+```python
+CACHES = {
+    "default": { # 默认
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://10.18.1.223:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    # ...
+}
+DATABASES = {
+    'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR/'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', # 数据库引擎
+        'HOST': '10.18.1.223', # 数据库主机
+        'PORT': 3306, # 数据库端口
+        'USER': 'shelhen', # 数据库用户名
+        'PASSWORD': 'aorT2lIpjHTRF25X', # 数据库用户密码
+        'NAME': 'flower' # 数据库名字
+    }
+}
+```
 
-4.数据库迁移，项目跟路径执行`python manage.py migrate`
+### 4.数据库迁移和更新数据
+```shell
+python manage.py migrate
+python flower_shop/utils/HuaSpider.py
+```
+如果数据库迁移失败，请尝试清空迁移内容，重新生成：
+```shell
+# python manage.py makemigrations --empty appname
+# 分别清空所有的内容，将上述appname换成user、content等
+python manage.py makemigrations
+python manage.py migrate product
+# 依次迁移
+python manage.py migrate
+# 爬去数据
+python flower_shop/utils/HuaSpider.py
+```
+最后运行`...flower-shop/flower_shop/utils/HuaSpider.py`中的代码自动爬取图片和商品数据。
 
-5.更新数据，运行`...flower-shop/flower_shop/utils/HuaSpider.py`中的代码自动爬取图片和商品数据。
+### 5.运行项目，访问`http://127.0.0.1:8000`即可见网站`C`端。
 
-6.运行项目，访问`http://127.0.0.1:8000`即可见网站`C`端。
+```shell
+python manage.py runserver：8000
+```
 
 > 说明：项目运行后，小部分内容还需要微调，如手机验证码服务、支付宝支付服务....，由于配置手机注册账户将为复杂，考虑提供一些体验账号，待更新。
 
-7.配置后台管理系统---目前未更新。
-
+### 6.配置后台管理系统
+项目如果正常运行，可创建管理员账号进入管理系统，其中后台管理系统由`django`自动升层，管理系统等前端美化借助了`simple-ui`插件，有收费的没用，自己调整了下，有需要自定义的可以自己参考相关文档。
+```shell
+python manage.py createsuperuser
+# 修改密码
+# python manager.py changepassword 
+# python manage.py shell 
+# from django.contrib.auth import get_user_model 
+# User = get_user_model().objects.get(pk=1)
+# User.set_password('root')
+# User.save()
+```
 
 ## 五、功能介绍
 ### 1.用户功能：
@@ -71,36 +134,51 @@
 
 
 浏览鲜花：在首页或分类页面查看各种鲜花产品，包括鲜花图片、名称、价格、描述等详细信息。
+
 ![](./docs/shwos/Snipaste_2024-10-28_09-07-20.png)
 ![](./docs/shwos/Snipaste_2024-10-28_09-07-09.png)
+
+
 商品详情：可在商品详情进一步查询鲜花信息。
 ![img.png](docs/shwos/img.png)
 ![](./docs/shwos/img2.png)
 ![](./docs/shwos/screenshot_12-02_20-18-40.png)
+
+
 花语信息：
 ![](./docs/shwos/screenshot_12-02_17-16-22.png)
+
 购物车管理：将心仪的鲜花加入购物车，可修改数量、删除商品，在购物车中查看总价。
-![](./docs/shwos/Snipaste_2024-10-28_09-08-16.png)
+![](./docs/shwos/screenshot_12-03_04-44-10.png)
 会员中心：
 可以进行收多地址、订单管理等操作....
 ![](docs/shwos/img3.png)
 ![](./docs/shwos/screenshot_12-02_21-10-22.png)
 
 下单与支付：完成购物后进行下单操作，选择支付方式（如 [具体支付方式，如支付宝支付]）完成购买。
-![](./docs/shwos/screenshot_12-02_21-12-37.png)
-订单跟踪：用户可以查看订单状态，包括已支付、已发货、已送达等。
-![](./docs/shwos/screenshot_12-02_21-15-02.png)
+![](./docs/shwos/screenshot_12-03_04-46-28.png)
 
-> 加入购物车和立即购买不知道怎么回事怎么发的`option`请求，暂时不更新了，有兴趣的可以自己折腾下，应该是小问题，俺过两天有空了再看。
+> 支付宝支付需要自行参考阿里支付的api，项目中提供了参考模版，另外，2年前开发时申请了支付宝沙箱账号账号：lusvqu1291@sandbox.com，支付密码：111111，使用者可以暂时使用体验支付功能。可能大概也许早就不能用了。
+
+订单跟踪：用户可以查看订单状态，包括已支付、已发货、已送达等。
+![](./docs/shwos/screenshot_12-03_04-47-49.png)
 
 
 ## 2.商家功能：
+数据中台：
 
-店铺管理：商家可以设置店铺信息，如店铺名称、联系方式、营业时间等。
+![](./docs/shwos/screenshot_12-03_04-53-12.png)
+![](./docs/shwos/screenshot_12-03_04-58-34.png)
+
 
 商品管理：添加、编辑、删除鲜花产品信息，包括上传鲜花图片、更新价格和库存。
+![](./docs/shwos/screenshot_12-03_04-53-33.png)
+![](./docs/shwos/screenshot_12-03_04-53-50.png)
 
 订单处理：查看新订单，更新订单状态，处理发货等相关操作。
+![](./docs/shwos/screenshot_12-03_04-54-18.png)
+
+主页管理、权限管理、花语信息管理等等。。。
 
 ## 六、贡献指南
 
