@@ -57,7 +57,7 @@ create database flower charset=utf8;
 CACHES = {
     "default": { # 默认
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://10.18.1.223:6379/0",
+        "LOCATION": "redis://127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -69,7 +69,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR/'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'HOST': '10.18.1.223', # 数据库主机
+        'HOST': '127.0.0.1', # 数据库主机
         'PORT': 3306, # 数据库端口
         'USER': 'shelhen', # 数据库用户名
         'PASSWORD': 'aorT2lIpjHTRF25X', # 数据库用户密码
@@ -180,9 +180,7 @@ python manage.py createsuperuser
 
 主页管理、权限管理、花语信息管理等等。。。
 
-## 六、贡献指南
+## 六、联系信息
 
-## 七、联系信息
-
-有任何问题欢迎提Issue，或将问题描述发送至我邮箱 shelhen@163.com.我会尽快解答，推荐提交Issue方式。
+有任何问题欢迎提Issue，或将问题描述发送至我邮箱 shelhen@163.com，我会尽快解答，推荐以提交Issue方式。
 
