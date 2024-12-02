@@ -96,35 +96,35 @@ FREIGHT = 80
 CACHES = {
     "default": { # 默认
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
+        "LOCATION": "redis://10.18.1.223:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "session": { # session
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://10.18.1.223:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "verify_code": { # 验证码
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/2",
+        "LOCATION": "redis://10.18.1.223:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "history": {  # 浏览记录
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/3",
+        "LOCATION": "redis://10.18.1.223:6379/3",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
     "carts": {  # 购物车
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/4",
+        "LOCATION": "redis://10.18.1.223:6379/4",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -182,10 +182,10 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR/'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'HOST': '127.0.0.1', # 数据库主机
+        'HOST': '10.18.1.223', # 数据库主机
         'PORT': 3306, # 数据库端口
-        'USER': 'root', # 数据库用户名
-        'PASSWORD': 'Password123.', # 数据库用户密码
+        'USER': 'shelhen', # 数据库用户名
+        'PASSWORD': 'aorT2lIpjHTRF25X', # 数据库用户密码
         'NAME': 'flower' # 数据库名字
     }
 }
