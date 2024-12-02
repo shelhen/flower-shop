@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-4*dvaqhgbh9t+d97tzj66%aij7*ravbh!uek!dg#ok@hdcc=_b
 
 # Application definition
 INSTALLED_APPS = [
-    # 'simpleui',
+    'simpleui',
+    # 'corsheaders',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -78,9 +79,16 @@ TEMPLATES = [
         },
     },
 ]
+DEBUG = True
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost"
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -88,8 +96,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 WSGI_APPLICATION = 'flower_shop.wsgi.application'
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+# CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1', "http://localhost:8000"]
+# 允许携带cookie
+# CORS_ALLOW_CREDENTIALS = False
+# True允许所有域访问/False允许指定域名访问
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = ["*"]
+# CORS_ALLOW_METHODS=["*"] # 配置允许的请求方式
+# CORS_ALLOW_HEADERS = ['*']
 
 # 指定默认的邮费
 FREIGHT = 80
@@ -174,9 +188,7 @@ ALIPAY_DEBUG = True  # 设置为True表示使用沙箱，设置为False则为正
 ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'  # 支付网关，固定
 ALIPAY_RETURN_URL = 'http://127.0.0.1:8000/payment/status/'  # 支付成功后，支付宝返回的地址
 
-# DEBUG = False
-ALLOWED_HOSTS = []
-DEBUG = True
+
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',

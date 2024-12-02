@@ -136,7 +136,7 @@ var vm = new Vue({
             }
         },
         comment_order(){
-            var url = this.host +'/carts/';
+            var url = '/carts/';
             axios.post(url, {
                 sku_id: parseInt(this.sku_id),
                 count:1,
@@ -160,7 +160,8 @@ var vm = new Vue({
         },
         // 加入购物车
         add_cart(){
-            var url = this.host +'/carts/';
+            // alert('点击成功');
+            var url = '/carts/';
             axios.post(url, {
                 sku_id: parseInt(this.sku_id),
                 count:1,
