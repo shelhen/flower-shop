@@ -44,7 +44,6 @@
 ```shell
 # 建议切换清华源安装
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-pip install -r requirements.txt
 pip3 install -r requiremnets.txt
 ```
 
@@ -117,6 +116,7 @@ python manage.py createsuperuser
 # User.set_password('root')
 # User.save()
 ```
+配置完毕后，访问`http://127.0.0.1:8000/admin`输入创建时定义的账号和密码即可进入管理系统。
 
 ## 五、功能介绍
 ### 1.用户功能：
